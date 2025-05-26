@@ -1,0 +1,34 @@
+@use '@/app/styles/helpers' as *;
+
+.link {
+  color: #fff;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  user-select: none;
+  cursor: pointer;
+
+  .text {
+    font-size: 14px;
+    font-weight: 500;
+    white-space: nowrap;
+    opacity: 0;
+    width: 0;
+    margin-left: 0;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    visibility: hidden;
+  }
+
+  &:hover .text {
+    transform: translateX(10px) scale(1.1);
+  }
+}
+
+.link .parentHoveredText {
+  visibility: visible;
+  opacity: 1;
+  width: auto;
+  margin-left: 2px;
+}

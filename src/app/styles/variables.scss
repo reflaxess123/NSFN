@@ -1,0 +1,37 @@
+@use 'helpers';
+
+:root {
+  --color-white: #ffffff;
+  --color-black: #000000; /* Primary Black */
+  --color-neutral: #404040; /* Neutral */
+
+  // Zinc Colors
+  --color-zinc-100: #f4f4f5;
+  --color-zinc-200: #e4e4e7;
+  --color-zinc-300: #d4d4d8;
+  --color-zinc-500: #71717a;
+  --color-zinc-800: #27272a;
+
+  // Error Color
+  --color-error-500: #ef4444;
+
+  --border-width-l: 4px;
+  --border-width-m: 3px;
+  --border-width-s: 1px;
+
+  --border-radius-l: 12px;
+  --border-radius-m: 10px;
+  --border-radius-s: 8px;
+  --border-radius-xs: 6px;
+  --border-radius-xxs: 5px;
+  --border-radius-xxxs: 4px;
+  --border-radius-xl: 19px;
+
+  --font-family-base: 'Sora', sans-serif;
+
+  --transition-duration: 0.2s;
+  --transition-duration-longer: 0.4s;
+
+  --container-width: #{helpers.fluid(1280, 375)};
+  --container-padding-x: #{helpers.fluid(80, 16)};
+}
