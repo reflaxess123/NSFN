@@ -1,0 +1,23 @@
+@use '@/app/styles/helpers' as *;
+
+.sidebarOverlay {
+  position: fixed;
+  opacity: 0;
+  transition:
+    opacity 0.3s ease,
+    backdrop-filter 0.3s ease;
+  width: 100%;
+  height: 100%;
+  background-color: #000000;
+  z-index: 100;
+
+  &.visible {
+    opacity: 0.5;
+  }
+}
+
+.pageWrapper {
+  padding: 20px;
+  width: calc(100vw - 50px);
+  height: 100vh;
+}
