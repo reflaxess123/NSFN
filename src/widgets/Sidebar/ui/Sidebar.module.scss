@@ -11,35 +11,35 @@
     position: fixed;
     left: 0;
     top: 0;
-    width: 50px;
+    width: var(--sidebar-width);
     height: 100vh;
     background: #222;
     color: #fff;
-    padding: 40px 0;
+    padding: 60px 0;
     transition:
       width 0.3s ease,
       padding 0.3s ease;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    padding-left: 15px;
+    padding-left: 25px;
     z-index: 101;
 
     .linksTop {
       display: flex;
       flex-direction: column;
-      gap: 20px;
+      gap: 50px;
     }
 
     .linksBottom {
       display: flex;
       flex-direction: column;
-      gap: 20px;
+      gap: 50px;
     }
   }
 }
 
 .sidebar:hover {
-  width: 150px;
-  padding: 40px 15px;
+  width: var(--sidebar-width-hover);
+  padding: 60px 45px;
 }

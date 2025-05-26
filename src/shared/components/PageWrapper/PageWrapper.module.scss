@@ -18,6 +18,6 @@
 
 .pageWrapper {
   padding: 20px;
-  width: calc(100vw - 50px);
+  width: calc(100vw - var(--sidebar-width));
   height: 100vh;
 }

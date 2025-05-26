@@ -34,4 +34,7 @@
 
   --container-width: #{helpers.fluid(1280, 375)};
   --container-padding-x: #{helpers.fluid(80, 16)};
+
+  --sidebar-width: 75px;
+  --sidebar-width-hover: 300px;
 }

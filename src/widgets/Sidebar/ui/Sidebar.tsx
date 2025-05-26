@@ -20,21 +20,21 @@ export const Sidebar = ({ children }: { children: React.ReactNode }) => {
           <Link
             text="Главная"
             className={styles.link}
-            icon={<Home size={16} />}
+            icon={<Home size={24} />}
             isParentHovered={isOpen}
             to="/"
           />
           <Link
             text="Теория"
             className={styles.link}
-            icon={<Brain size={16} />}
+            icon={<Brain size={24} />}
             isParentHovered={isOpen}
             to={AppRoutes.THEORY}
           />
           <Link
             text="Нарешка"
             className={styles.link}
-            icon={<Bird size={16} />}
+            icon={<Bird size={24} />}
             isParentHovered={isOpen}
             to={AppRoutes.TASKS}
           />
@@ -43,14 +43,14 @@ export const Sidebar = ({ children }: { children: React.ReactNode }) => {
           <Link
             text="Профиль"
             className={styles.link}
-            icon={<User size={16} />}
+            icon={<User size={24} />}
             isParentHovered={isOpen}
             to={AppRoutes.PROFILE}
           />
           <Link
             text="Выйти"
             className={styles.link}
-            icon={<LogOut size={16} />}
+            icon={<LogOut size={24} />}
             isParentHovered={isOpen}
           />
         </div>
