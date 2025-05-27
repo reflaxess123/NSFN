@@ -10,6 +10,7 @@
   height: 100%;
   background-color: #000000;
   z-index: 100;
+  pointer-events: none;
 
   &.visible {
     opacity: 0.5;

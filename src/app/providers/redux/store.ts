@@ -1,3 +1,4 @@
+import { userSlice } from '@/entities/User';
 import sidebarSlice from '@/widgets/Sidebar/model/slice/sidebarSlice';
 import { configureStore } from '@reduxjs/toolkit';
 
@@ -6,6 +7,7 @@ type AppDispatch = typeof store.dispatch;
 
 const rootReducer = {
   sidebar: sidebarSlice,
+  user: userSlice,
 };
 
 const store = configureStore({

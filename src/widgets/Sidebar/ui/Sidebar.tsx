@@ -1,4 +1,4 @@
-import type { RootState } from '@/app/redux/store';
+import type { RootState } from '@/app/providers/redux/store';
 import { Link } from '@/shared/components/Link';
 import { AppRoutes } from '@/shared/config/routeConfig';
 import { Bird, Brain, Home, LogOut, User } from 'lucide-react';
