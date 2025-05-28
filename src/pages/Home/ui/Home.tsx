@@ -28,7 +28,14 @@ const Home = () => {
           align={TextAlign.CENTER}
         />
         <div className={styles.userInfo}>
-          {user && <p className={styles.userInfoItem}>User: {user?.email}</p>}
+          {user && (
+            <Text
+              text={`User: ${user?.email}`}
+              size={TextSize.MEDIUM}
+              weight={TextWeight.MEDIUM}
+              align={TextAlign.CENTER}
+            />
+          )}
           <Text
             text={`Is Authenticated: ${isAuthenticated ? 'Yes' : 'No'}`}
             size={TextSize.MEDIUM}
