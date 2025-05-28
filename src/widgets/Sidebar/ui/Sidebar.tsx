@@ -1,14 +1,22 @@
 import type { RootState } from '@/app/providers/redux/store';
+import { logoutUser } from '@/entities/User';
 import { Link } from '@/shared/components/Link';
 import { AppRoutes } from '@/shared/config/routeConfig';
+import { useAppDispatch } from '@/shared/hooks';
 import { Bird, Brain, Home, LogOut, User } from 'lucide-react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { toggleSidebar } from '../model/slice/sidebarSlice';
 import styles from './Sidebar.module.scss';
 
 export const Sidebar = ({ children }: { children: React.ReactNode }) => {
   const isOpen = useSelector((state: RootState) => state.sidebar.isOpen);
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
+
+  const handleLogout = () => {
+    dispatch(logoutUser());
+    dispatch(toggleSidebar());
+  };
+
   return (
     <div className={styles.sidebarWrapper}>
       <div
@@ -52,6 +60,7 @@ export const Sidebar = ({ children }: { children: React.ReactNode }) => {
             className={styles.link}
             icon={<LogOut size={24} />}
             isParentHovered={isOpen}
+            onClick={handleLogout}
           />
         </div>
       </div>

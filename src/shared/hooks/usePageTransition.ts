@@ -9,7 +9,7 @@ export const usePageTransition = () => {
     setIsLoading(true);
     const timer = setTimeout(() => {
       setIsLoading(false);
-    }, 1000); // Время показа loading для демонстрации
+    }, 0); // Время показа loading для демонстрации
 
     return () => clearTimeout(timer);
   }, [location.pathname]);

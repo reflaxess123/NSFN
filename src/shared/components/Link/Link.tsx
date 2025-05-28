@@ -9,9 +9,18 @@ type LinkProps = {
   hoverExpand?: boolean;
   isParentHovered?: boolean;
   to?: string;
+  onClick?: () => void;
 };
 
-export const Link = ({ text, className, icon, hoverExpand, isParentHovered, to }: LinkProps) => {
+export const Link = ({
+  text,
+  className,
+  icon,
+  hoverExpand,
+  isParentHovered,
+  to,
+  onClick,
+}: LinkProps) => {
   const navigate = useNavigate();
 
   return (
@@ -19,11 +28,21 @@ export const Link = ({ text, className, icon, hoverExpand, isParentHovered, to }
       className={clsx(styles.link, className, {
         [styles.hoverExpand]: hoverExpand,
       })}
-      onClick={() => navigate(to ?? '')}
+      onClick={() => {
+        if (onClick) {
+          onClick();
+        } else {
+          navigate(to ?? '');
+        }
+      }}
     >
       {icon && <div className={styles.icon}>{icon}</div>}
       {text && (
-        <div className={clsx(styles.text, { [styles.parentHoveredText]: isParentHovered })}>
+        <div
+          className={clsx(styles.text, {
+            [styles.parentHoveredText]: isParentHovered,
+          })}
+        >
           {text}
         </div>
       )}

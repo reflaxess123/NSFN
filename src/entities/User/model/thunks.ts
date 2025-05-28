@@ -13,7 +13,9 @@ export const checkProfile = createAsyncThunk(
       return user;
     } catch (error) {
       dispatch(clearUser());
-      return rejectWithValue(error instanceof Error ? error.message : 'An unknown error occurred');
+      return rejectWithValue(
+        error instanceof Error ? error.message : 'An unknown error occurred'
+      );
     } finally {
       dispatch(setLoading(false));
     }
@@ -31,7 +33,8 @@ export const loginUser = createAsyncThunk(
       dispatch(setUser(user));
       return user;
     } catch (error) {
-      const errorMessage = error instanceof Error ? error.message : 'An unknown error occurred';
+      const errorMessage =
+        error instanceof Error ? error.message : 'An unknown error occurred';
       dispatch(setError(errorMessage));
       return rejectWithValue(errorMessage);
     } finally {
@@ -47,9 +50,12 @@ export const logoutUser = createAsyncThunk(
       dispatch(setLoading(true));
       await authApi.logout();
       dispatch(clearUser());
+      window.location.href = '/';
     } catch (error) {
       dispatch(clearUser());
-      return rejectWithValue(error instanceof Error ? error.message : 'An unknown error occurred');
+      return rejectWithValue(
+        error instanceof Error ? error.message : 'An unknown error occurred'
+      );
     } finally {
       dispatch(setLoading(false));
     }
