@@ -1,6 +1,6 @@
-import type { User } from '@/shared/types/auth';
 import type { PayloadAction } from '@reduxjs/toolkit';
 import { createSlice } from '@reduxjs/toolkit';
+import type { User } from './types';
 
 interface UserState {
   data: User | null;

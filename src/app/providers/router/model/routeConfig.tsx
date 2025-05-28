@@ -1,12 +1,18 @@
 import { lazy } from 'react';
-import type { AppRoute } from './routerTypes';
+import type { AppRoute } from './types';
 
-const Home = lazy(() => import('@/pages/Home').then((module) => ({ default: module.Home })));
+const Home = lazy(() =>
+  import('@/pages/Home').then((module) => ({ default: module.Home }))
+);
 const Profile = lazy(() =>
   import('@/pages/Profile').then((module) => ({ default: module.Profile }))
 );
-const Tasks = lazy(() => import('@/pages/Tasks').then((module) => ({ default: module.Tasks })));
-const Theory = lazy(() => import('@/pages/Theory').then((module) => ({ default: module.Theory })));
+const Tasks = lazy(() =>
+  import('@/pages/Tasks').then((module) => ({ default: module.Tasks }))
+);
+const Theory = lazy(() =>
+  import('@/pages/Theory').then((module) => ({ default: module.Theory }))
+);
 
 export enum AppRoutes {
   HOME = '/',

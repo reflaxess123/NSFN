@@ -1,4 +1,4 @@
-import { PageWrapper } from '../PageWrapper';
+import { PageWrapper } from '@/shared/components/PageWrapper';
 import styles from './Loading.module.scss';
 
 export const Loading = () => {

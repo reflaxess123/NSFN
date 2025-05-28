@@ -1,6 +1,6 @@
 import { PageWrapper } from '@/shared/components/PageWrapper';
 import { Text, TextSize } from '@/shared/components/Text';
-import { TextAlign, TextWeight } from '@/shared/components/Text/Text';
+import { TextAlign, TextWeight } from '@/shared/components/Text/ui/Text';
 import styles from './Theory.module.scss';
 
 const Theory = () => {

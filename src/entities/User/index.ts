@@ -1,4 +1,3 @@
-export type { User } from '@/shared/types/auth';
 export {
   selectError,
   selectIsAuthenticated,
@@ -6,5 +5,12 @@ export {
   selectIsLoading,
   selectUser,
 } from './model/selectors';
-export { clearUser, setError, setLoading, setUser, default as userSlice } from './model/slice';
+export {
+  clearUser,
+  setError,
+  setLoading,
+  setUser,
+  default as userSlice,
+} from './model/slice';
 export { checkProfile, loginUser, logoutUser } from './model/thunks';
+export type { User } from './model/types';

@@ -1,21 +1,36 @@
-import type { RootState } from '@/app/providers/redux/store';
+import type { RootState } from '@/app/providers/redux/model/store';
+import { AppRoutes } from '@/app/providers/router';
 import { logoutUser } from '@/entities/User';
+import { LoginForm } from '@/features/LoginForm';
 import { Link } from '@/shared/components/Link';
-import { AppRoutes } from '@/shared/config/routeConfig';
-import { useAppDispatch } from '@/shared/hooks';
-import { Bird, Brain, Home, LogOut, User } from 'lucide-react';
+import { useAppDispatch, useAuth, useModal } from '@/shared/hooks';
+import { Bird, Brain, Home, LogIn, LogOut, User } from 'lucide-react';
+import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { toggleSidebar } from '../model/slice/sidebarSlice';
 import styles from './Sidebar.module.scss';
 
 export const Sidebar = ({ children }: { children: React.ReactNode }) => {
-  const isOpen = useSelector((state: RootState) => state.sidebar.isOpen);
   const dispatch = useAppDispatch();
+  const isOpen = useSelector((state: RootState) => state.sidebar.isOpen);
+  const { isAuthenticated, user } = useAuth();
+  const loginModal = useModal('login-modal');
+
+  const handleOpenLogin = () => {
+    loginModal.open(<LoginForm />);
+  };
 
   const handleLogout = () => {
     dispatch(logoutUser());
     dispatch(toggleSidebar());
   };
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      loginModal.close();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isAuthenticated]);
 
   return (
     <div className={styles.sidebarWrapper}>
@@ -48,20 +63,32 @@ export const Sidebar = ({ children }: { children: React.ReactNode }) => {
           />
         </div>
         <div className={styles.linksBottom}>
-          <Link
-            text="Профиль"
-            className={styles.link}
-            icon={<User size={24} />}
-            isParentHovered={isOpen}
-            to={AppRoutes.PROFILE}
-          />
-          <Link
-            text="Выйти"
-            className={styles.link}
-            icon={<LogOut size={24} />}
-            isParentHovered={isOpen}
-            onClick={handleLogout}
-          />
+          {isAuthenticated ? (
+            <Link
+              text={user?.email || ''}
+              className={styles.link}
+              icon={<User size={24} />}
+              isParentHovered={isOpen}
+              to={AppRoutes.PROFILE}
+            />
+          ) : (
+            <Link
+              text="Войти"
+              className={styles.link}
+              icon={<LogIn size={24} />}
+              isParentHovered={isOpen}
+              onClick={handleOpenLogin}
+            />
+          )}
+          {isAuthenticated && (
+            <Link
+              text="Выйти"
+              className={styles.link}
+              icon={<LogOut size={24} />}
+              isParentHovered={isOpen}
+              onClick={handleLogout}
+            />
+          )}
         </div>
       </div>
       <div className={styles.pageWrapper}>{children}</div>

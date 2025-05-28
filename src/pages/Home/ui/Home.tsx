@@ -1,8 +1,7 @@
-import { LoginForm } from '@/features/LoginForm';
 import { Loading } from '@/shared/components/Loading';
 import { PageWrapper } from '@/shared/components/PageWrapper';
 import { Text, TextSize } from '@/shared/components/Text';
-import { TextAlign, TextWeight } from '@/shared/components/Text/Text';
+import { TextAlign, TextWeight } from '@/shared/components/Text/ui/Text';
 import { useAuth } from '@/shared/hooks';
 import { useEffect } from 'react';
 import styles from './Home.module.scss';
@@ -28,16 +27,21 @@ const Home = () => {
           weight={TextWeight.MEDIUM}
           align={TextAlign.CENTER}
         />
-        <LoginForm />
         <div className={styles.userInfo}>
-          <p className={styles.userInfoItem}>User: {user?.email}</p>
-          <p className={styles.userInfoItem}>
-            Is Authenticated: {isAuthenticated ? 'Yes' : 'No'}
-          </p>
-          <p className={styles.userInfoItem}>
-            Is Initialized: {isInitialized ? 'Yes' : 'No'}
-          </p>
-          <p className={styles.userInfoItem}>Error: {error}</p>
+          {user && <p className={styles.userInfoItem}>User: {user?.email}</p>}
+          <Text
+            text={`Is Authenticated: ${isAuthenticated ? 'Yes' : 'No'}`}
+            size={TextSize.MEDIUM}
+            weight={TextWeight.MEDIUM}
+            align={TextAlign.CENTER}
+          />
+          <Text
+            text={`Is Initialized: ${isInitialized ? 'Yes' : 'No'}`}
+            size={TextSize.MEDIUM}
+            weight={TextWeight.MEDIUM}
+            align={TextAlign.CENTER}
+          />
+          {error && <p className={styles.userInfoItem}>Error: {error}</p>}
         </div>
       </div>
     </PageWrapper>

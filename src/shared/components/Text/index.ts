@@ -1,1 +1,1 @@
-export { Text, TextSize } from './Text';
+export { Text, TextSize } from './ui/Text';

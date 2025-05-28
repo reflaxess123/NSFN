@@ -1,5 +1,5 @@
+import { Loading } from '@/shared/components/Loading';
 import { usePageTransition } from '@/shared/hooks/usePageTransition';
-import { Loading } from '../Loading';
 
 interface PageTransitionProps {
   children: React.ReactNode;

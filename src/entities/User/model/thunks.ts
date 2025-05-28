@@ -1,5 +1,8 @@
+import type {
+  LoginRequest,
+  RegisterRequest,
+} from '@/entities/User/model/types';
 import { authApi } from '@/shared/api/auth';
-import type { LoginRequest } from '@/shared/types/auth';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { clearUser, setError, setLoading, setUser } from './slice';
 
@@ -49,6 +52,25 @@ export const logoutUser = createAsyncThunk(
     try {
       dispatch(setLoading(true));
       await authApi.logout();
+      dispatch(clearUser());
+      window.location.href = '/';
+    } catch (error) {
+      dispatch(clearUser());
+      return rejectWithValue(
+        error instanceof Error ? error.message : 'An unknown error occurred'
+      );
+    } finally {
+      dispatch(setLoading(false));
+    }
+  }
+);
+
+export const registerUser = createAsyncThunk(
+  'user/register',
+  async (credentials: RegisterRequest, { dispatch, rejectWithValue }) => {
+    try {
+      dispatch(setLoading(true));
+      await authApi.register(credentials);
       dispatch(clearUser());
       window.location.href = '/';
     } catch (error) {

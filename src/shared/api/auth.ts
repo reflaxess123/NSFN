@@ -1,4 +1,8 @@
-import type { LoginRequest, RegisterRequest, User } from '@/shared/types/auth';
+import type {
+  LoginRequest,
+  RegisterRequest,
+  User,
+} from '@/entities/User/model/types';
 import { apiInstance } from './base';
 
 export const authApi = {
@@ -8,7 +12,10 @@ export const authApi = {
   },
 
   async register(credentials: RegisterRequest) {
-    const response = await apiInstance.post<User>('/auth/register', credentials);
+    const response = await apiInstance.post<User>(
+      '/auth/register',
+      credentials
+    );
     return response.data;
   },
 
