@@ -1,35 +1,44 @@
 @use '@/app/styles/helpers' as *;
 
 .link {
-  color: #fff;
+  color: var(--text-inverse);
   text-decoration: none;
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: var(--space-3);
   user-select: none;
   cursor: pointer;
+  transition: color var(--transition-normal) var(--ease-in-out);
+
+  &.sidebar {
+    color: var(--sidebar-text);
+
+    &:hover {
+      color: var(--sidebar-text);
+    }
+  }
 
   .text {
-    font-size: 24px;
-    font-weight: 400;
+    font-size: var(--font-size-2xl);
+    font-weight: var(--font-weight-normal);
     white-space: nowrap;
-    opacity: 0;
+    opacity: var(--opacity-0);
     width: 0;
     margin-left: 0;
     overflow: hidden;
-    transition: all 0.3s ease;
+    transition: all var(--transition-slow) var(--ease-in-out);
     visibility: hidden;
 
     &.small {
-      font-size: 16px;
+      font-size: var(--font-size-base);
     }
 
     &.medium {
-      font-size: 24px;
+      font-size: var(--font-size-2xl);
     }
 
     &.large {
-      font-size: 36px;
+      font-size: var(--font-size-4xl);
     }
   }
 
@@ -40,7 +49,7 @@
 
 .link .parentHoveredText {
   visibility: visible;
-  opacity: 1;
+  opacity: var(--opacity-100);
   width: auto;
-  margin-left: 2px;
+  margin-left: var(--space-1);
 }

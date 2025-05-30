@@ -86,6 +86,14 @@ export interface CategoryIcon {
   color: string;
 }
 
+// Константы цветов прогресса
+export const PROGRESS_COLORS = {
+  NOT_STUDIED: 'var(--color-error)',
+  BEGINNER: 'var(--color-warning)',
+  INTERMEDIATE: 'var(--color-info)',
+  STUDIED: 'var(--color-success)',
+} as const;
+
 // Предустановленные иконки для категорий
 export const CATEGORY_ICONS: Record<string, CategoryIcon> = {
   'JS ТЕОРИЯ': {
@@ -121,6 +129,6 @@ export const CATEGORY_ICONS: Record<string, CategoryIcon> = {
   DEFAULT: {
     category: 'DEFAULT',
     icon: '📚',
-    color: '#6b7280',
+    color: 'var(--text-muted)',
   },
 };

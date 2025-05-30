@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useUpdateProgress } from '../model/queries';
 import type { TheoryCard as TheoryCardType } from '../model/types';
-import { CATEGORY_ICONS } from '../model/types';
+import { CATEGORY_ICONS, PROGRESS_COLORS } from '../model/types';
 import styles from './TheoryCard.module.scss';
 
 interface TheoryCardProps {
@@ -29,11 +29,24 @@ export const TheoryCard = ({ card }: TheoryCardProps) => {
   // Определяем уровень прогресса
   const getProgressLevel = (count: number) => {
     if (count === 0)
-      return { level: 'Не изучено', color: '#ef4444', emoji: '🔴' };
+      return {
+        level: 'Не изучено',
+        color: PROGRESS_COLORS.NOT_STUDIED,
+        emoji: '🔴',
+      };
     if (count <= 2)
-      return { level: 'Начальный', color: '#f59e0b', emoji: '🟡' };
-    if (count <= 5) return { level: 'Средний', color: '#3b82f6', emoji: '🔵' };
-    return { level: 'Изучено', color: '#10b981', emoji: '🟢' };
+      return {
+        level: 'Начальный',
+        color: PROGRESS_COLORS.BEGINNER,
+        emoji: '🟡',
+      };
+    if (count <= 5)
+      return {
+        level: 'Средний',
+        color: PROGRESS_COLORS.INTERMEDIATE,
+        emoji: '🔵',
+      };
+    return { level: 'Изучено', color: PROGRESS_COLORS.STUDIED, emoji: '🟢' };
   };
 
   const progressInfo = getProgressLevel(card.currentUserSolvedCount);
@@ -97,40 +110,28 @@ export const TheoryCard = ({ card }: TheoryCardProps) => {
             />
           </div>
 
-          <div className={styles.cardFooter}>
-            <div className={styles.progressActions}>
+          <div className={styles.progressButtons}>
+            <button
+              className={styles.progressButton}
+              onClick={(e) => {
+                e.stopPropagation();
+                handleProgressUpdate('increment');
+              }}
+              disabled={updateProgressMutation.isPending}
+            >
+              ✅ Изучил
+            </button>
+            {card.currentUserSolvedCount > 0 && (
               <button
                 className={styles.progressButton}
                 onClick={(e) => {
                   e.stopPropagation();
-                  handleProgressUpdate('increment');
+                  handleProgressUpdate('decrement');
                 }}
                 disabled={updateProgressMutation.isPending}
               >
-                ✅ Изучил
+                ↩️ Отменить
               </button>
-              {card.currentUserSolvedCount > 0 && (
-                <button
-                  className={`${styles.progressButton} ${styles.decrementButton}`}
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    handleProgressUpdate('decrement');
-                  }}
-                  disabled={updateProgressMutation.isPending}
-                >
-                  ↩️ Отменить
-                </button>
-              )}
-            </div>
-
-            {card.tags.length > 0 && (
-              <div className={styles.tags}>
-                {card.tags.map((tag, index) => (
-                  <span key={index} className={styles.tag}>
-                    #{tag}
-                  </span>
-                ))}
-              </div>
             )}
           </div>
         </div>

@@ -1,1 +1,1 @@
-export { ModalProvider } from './ui/ModalProvider';
+export { ModalRenderer as ModalProvider } from './ui/ModalProvider';

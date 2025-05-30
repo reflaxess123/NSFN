@@ -2,12 +2,13 @@ import { Loading } from '@/shared/components/Loading';
 import { PageWrapper } from '@/shared/components/PageWrapper';
 import { Text, TextSize } from '@/shared/components/Text';
 import { TextAlign, TextWeight } from '@/shared/components/Text/ui/Text';
-import { useAuth } from '@/shared/hooks';
+import { useAuth, useTheme } from '@/shared/hooks';
 import { useEffect } from 'react';
 import styles from './Home.module.scss';
 
 const Home = () => {
   const { user, isAuthenticated, isInitialized, isLoading, error } = useAuth();
+  const { theme } = useTheme();
 
   useEffect(() => {
     console.log('User changed:', user);
@@ -44,6 +45,12 @@ const Home = () => {
           />
           <Text
             text={`Is Initialized: ${isInitialized ? 'Yes' : 'No'}`}
+            size={TextSize.MEDIUM}
+            weight={TextWeight.MEDIUM}
+            align={TextAlign.CENTER}
+          />
+          <Text
+            text={`Theme: ${theme}`}
             size={TextSize.MEDIUM}
             weight={TextWeight.MEDIUM}
             align={TextAlign.CENTER}

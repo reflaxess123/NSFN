@@ -17,17 +17,18 @@
     top: 0;
     width: var(--sidebar-width);
     height: 100vh;
-    background: #764ba2;
-    color: #fff;
+    background: var(--sidebar-bg);
+    color: var(--sidebar-text);
     padding: 60px 0;
     transition:
-      width 0.3s ease,
-      padding 0.3s ease;
+      width var(--transition-slow) var(--ease-in-out),
+      padding var(--transition-slow) var(--ease-in-out),
+      background-color var(--transition-normal) var(--ease-in-out);
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     padding-left: 25px;
-    z-index: 101;
+    z-index: var(--z-fixed);
 
     @include mobile {
       display: none;
@@ -50,4 +51,5 @@
 .sidebar:hover {
   width: var(--sidebar-width-hover);
   padding: 60px 45px;
+  background: var(--sidebar-bg-hover);
 }

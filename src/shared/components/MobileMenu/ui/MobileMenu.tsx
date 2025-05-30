@@ -1,9 +1,19 @@
 import { AppRoutes } from '@/app/providers/router';
 import { logoutUser } from '@/entities/User';
 import { Link } from '@/shared/components/Link';
+import { useTheme } from '@/shared/context/ThemeContext';
 import { useAppDispatch, useAuth } from '@/shared/hooks';
 import { AnimatePresence, motion } from 'framer-motion';
-import { Bird, Brain, Home, LogIn, LogOut, User } from 'lucide-react';
+import {
+  Bird,
+  Brain,
+  Home,
+  LogIn,
+  LogOut,
+  Moon,
+  Sun,
+  User,
+} from 'lucide-react';
 import styles from './MobileMenu.module.scss';
 
 interface MobileMenuProps {
@@ -19,6 +29,7 @@ export const MobileMenu = ({
 }: MobileMenuProps) => {
   const dispatch = useAppDispatch();
   const { isAuthenticated, user } = useAuth();
+  const { theme, setTheme } = useTheme();
 
   const handleOpenLogin = () => {
     if (onOpenLogin) {
@@ -34,6 +45,18 @@ export const MobileMenu = ({
 
   const handleLinkClick = () => {
     onClose();
+  };
+
+  const handleThemeToggle = () => {
+    setTheme(theme === 'light' ? 'dark' : 'light');
+  };
+
+  const getThemeIcon = () => {
+    return theme === 'light' ? <Sun size={64} /> : <Moon size={64} />;
+  };
+
+  const getThemeText = () => {
+    return theme === 'light' ? 'Светлая' : 'Темная';
   };
 
   return (
@@ -67,6 +90,7 @@ export const MobileMenu = ({
                   onClick={handleLinkClick}
                   isParentHovered={true}
                   size="large"
+                  variant="sidebar"
                 />
                 {isAuthenticated && (
                   <Link
@@ -77,6 +101,7 @@ export const MobileMenu = ({
                     onClick={handleLinkClick}
                     isParentHovered={true}
                     size="large"
+                    variant="sidebar"
                   />
                 )}
                 {isAuthenticated && (
@@ -88,11 +113,24 @@ export const MobileMenu = ({
                     onClick={handleLinkClick}
                     isParentHovered={true}
                     size="large"
+                    variant="sidebar"
                   />
                 )}
               </div>
 
               <div className={styles.linksBottom}>
+                <Link
+                  text={getThemeText()}
+                  className={styles.link}
+                  icon={getThemeIcon()}
+                  onClick={() => {
+                    handleThemeToggle();
+                    handleLinkClick();
+                  }}
+                  isParentHovered={true}
+                  size="large"
+                  variant="sidebar"
+                />
                 {isAuthenticated ? (
                   <Link
                     text={user?.email || ''}
@@ -102,6 +140,7 @@ export const MobileMenu = ({
                     onClick={handleLinkClick}
                     isParentHovered={true}
                     size="large"
+                    variant="sidebar"
                   />
                 ) : (
                   <Link
@@ -111,6 +150,7 @@ export const MobileMenu = ({
                     onClick={handleOpenLogin}
                     isParentHovered={true}
                     size="large"
+                    variant="sidebar"
                   />
                 )}
                 {isAuthenticated && (
@@ -121,6 +161,7 @@ export const MobileMenu = ({
                     onClick={handleLogout}
                     isParentHovered={true}
                     size="large"
+                    variant="sidebar"
                   />
                 )}
               </div>

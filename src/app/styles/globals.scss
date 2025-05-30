@@ -18,8 +18,11 @@ html {
 
 body {
   font-family: var(--font-family-base);
-  color: var(--color-black);
-  background-color: var(--color-zinc-300);
+  color: var(--text-primary);
+  background-color: var(--bg-secondary);
+  transition:
+    color var(--transition-normal),
+    background-color var(--transition-normal);
 }
 
 main {

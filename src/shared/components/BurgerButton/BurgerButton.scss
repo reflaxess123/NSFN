@@ -2,14 +2,15 @@
 
 .burger-button {
   padding: 0;
-  background-color: #764ba2;
+  background-color: var(--color-primary);
   border: none;
   border-radius: var(--border-radius-xxxs);
   width: 56px;
   height: 56px;
+  transition: background-color var(--transition-normal) var(--ease-in-out);
 
   @include hover {
-    background-color: var(--color-zinc-800);
+    background-color: var(--color-primary-dark);
   }
 
   &.is-active {
@@ -33,7 +34,7 @@
 
   &__line {
     fill: none;
-    stroke: var(--color-white);
+    stroke: var(--text-inverse);
     stroke-width: 6;
     stroke-linecap: round;
     stroke-dasharray: 60 207;

@@ -6,9 +6,9 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: rgba(241, 245, 249, 0.5);
-  z-index: 999;
-  backdrop-filter: blur(4px);
+  background-color: var(--bg-overlay);
+  z-index: var(--z-modal-backdrop);
+  backdrop-filter: var(--backdrop-blur-sm);
 }
 
 .mobileMenu {
@@ -17,9 +17,10 @@
   left: 0;
   width: 100vw;
   height: 100vh;
-  background: #563775;
-  z-index: 1000;
-  box-shadow: 2px 0 20px rgba(0, 0, 0, 0.3);
+  background: var(--sidebar-bg);
+  z-index: var(--z-modal);
+  box-shadow: var(--shadow-2xl);
+  transition: background-color var(--transition-normal) var(--ease-in-out);
 }
 
 .menuContent {
@@ -46,21 +47,21 @@
 
 .link {
   padding: 20px 15px;
-  border-radius: 12px;
-  transition: all 0.3s ease;
+  border-radius: var(--radius-xl);
+  transition: all var(--transition-slow) var(--ease-in-out);
 
   &:hover {
-    background-color: rgba(255, 255, 255, 0.1);
+    background-color: rgba(255, 255, 255, var(--opacity-10));
     transform: translateX(5px);
   }
 
   :global(.text) {
     font-size: 50px !important;
-    font-weight: 500 !important;
-    color: #fff !important;
+    font-weight: var(--font-weight-medium) !important;
+    color: var(--sidebar-text) !important;
   }
 
   :global(.icon) {
-    color: #fff !important;
+    color: var(--sidebar-text) !important;
   }
 }

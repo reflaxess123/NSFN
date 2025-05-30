@@ -1,15 +1,13 @@
 @use '@/app/styles/helpers' as *;
 
 .theoryCard {
-  background: #764ba2;
+  background: var(--card-bg);
   border: none;
-  border-radius: 16px;
+  border-radius: var(--radius-2xl);
   padding: fluid-to-tablet(24, 20);
   margin-bottom: fluid-to-tablet(24, 20);
-  box-shadow:
-    0 8px 32px rgba(102, 126, 234, 0.2),
-    0 4px 16px rgba(118, 75, 162, 0.1);
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: var(--shadow-sidebar);
+  transition: all var(--transition-slow) cubic-bezier(0.4, 0, 0.2, 1);
   position: relative;
   overflow: hidden;
   cursor: pointer;
@@ -18,19 +16,13 @@
   &::before {
     content: '';
     @include abs-cover;
-    background: linear-gradient(
-      135deg,
-      rgba(255, 255, 255, 0.1) 0%,
-      rgba(255, 255, 255, 0.05) 100%
-    );
+    background: var(--card-overlay);
     pointer-events: none;
   }
 
   @include hover {
     transform: translateY(-8px) scale(1.02);
-    box-shadow:
-      0 16px 48px rgba(102, 126, 234, 0.3),
-      0 8px 24px rgba(118, 75, 162, 0.2);
+    box-shadow: var(--shadow-2xl);
   }
 
   &:active {
@@ -38,7 +30,7 @@
   }
 
   &.expanded {
-    background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+    background: var(--card-bg-expanded);
 
     .expandIcon {
       transform: rotate(180deg);
@@ -50,7 +42,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 16px;
+  margin-bottom: var(--space-4);
   position: relative;
   z-index: 2;
 }
@@ -69,38 +61,40 @@
 .categoryText {
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  gap: var(--space-1);
 }
 
 .category {
   font-size: fluid-to-mobile-small(14, 12);
-  font-weight: 600;
-  color: rgba(255, 255, 255, 0.9);
+  font-weight: var(--font-weight-semibold);
+  color: var(--card-text);
+  opacity: var(--opacity-90);
   text-transform: uppercase;
   letter-spacing: 0.5px;
 }
 
 .subCategory {
-  font-size: 12px;
-  color: rgba(255, 255, 255, 0.7);
-  font-weight: 400;
+  font-size: var(--font-size-xs);
+  color: var(--card-text);
+  opacity: var(--opacity-70);
+  font-weight: var(--font-weight-normal);
 }
 
 .headerRight {
   display: flex;
   align-items: center;
-  gap: 16px;
+  gap: var(--space-4);
 }
 
 .progressInfo {
   display: flex;
   align-items: center;
-  gap: 6px;
-  background: rgba(255, 255, 255, 0.15);
-  padding: 6px 12px;
-  border-radius: 20px;
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  gap: var(--space-2);
+  background: var(--card-bg);
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-full);
+  backdrop-filter: var(--backdrop-blur-md);
+  border: 1px solid rgba(255, 255, 255, var(--opacity-20));
 
   @include mobile {
     display: none;
@@ -108,50 +102,50 @@
 }
 
 .progressEmoji {
-  font-size: 14px;
+  font-size: var(--font-size-sm);
 }
 
 .progressCount {
-  font-size: 14px;
-  font-weight: 700;
-  color: #ffffff;
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-bold);
+  color: var(--card-text);
   min-width: 20px;
   text-align: center;
 }
 
 .progressLevel {
-  font-size: 12px;
-  font-weight: 600;
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-semibold);
   text-transform: uppercase;
   letter-spacing: 0.5px;
 }
 
 .expandIcon {
   @include square(32px);
-  background: rgba(255, 255, 255, 0.2);
-  border-radius: 50%;
+  background: var(--card-bg);
+  border-radius: var(--radius-full);
   @include flex-center;
-  font-size: 18px;
-  font-weight: bold;
-  color: #ffffff;
-  transition: all 0.3s ease;
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.3);
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-bold);
+  color: var(--card-text);
+  transition: all var(--transition-slow) var(--ease-in-out);
+  backdrop-filter: var(--backdrop-blur-md);
+  border: 1px solid rgba(255, 255, 255, var(--opacity-30));
 
   @include hover {
-    background: rgba(255, 255, 255, 0.3);
+    background: rgba(255, 255, 255, var(--opacity-30));
     transform: scale(1.1);
   }
 }
 
 .question {
   @include fluid-text(18, 16);
-  line-height: 1.6;
-  color: #ffffff;
-  font-weight: 500;
+  line-height: var(--line-height-relaxed);
+  color: var(--card-text);
+  font-weight: var(--font-weight-medium);
   position: relative;
   z-index: 1;
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  text-shadow: 0 2px 4px rgba(0, 0, 0, var(--opacity-10));
   text-align: center;
 
   * {
@@ -161,11 +155,11 @@
   img {
     max-width: 100%;
     height: auto;
-    border-radius: 12px;
-    margin: 16px auto;
+    border-radius: var(--radius-xl);
+    margin: var(--space-4) auto;
     display: block;
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
-    transition: transform 0.3s ease;
+    box-shadow: var(--shadow-lg);
+    transition: transform var(--transition-slow) var(--ease-in-out);
 
     @include hover {
       transform: scale(1.05);
@@ -178,34 +172,34 @@
   h4,
   h5,
   h6 {
-    color: #ffffff;
-    margin-bottom: 16px;
-    font-weight: 600;
+    color: var(--card-text);
+    margin-bottom: var(--space-4);
+    font-weight: var(--font-weight-semibold);
     text-align: center;
   }
 
   p {
-    margin-bottom: 12px;
-    opacity: 0.95;
+    margin-bottom: var(--space-3);
+    opacity: var(--opacity-95);
     text-align: center;
   }
 
   code {
-    background: rgba(255, 255, 255, 0.2);
-    padding: 4px 8px;
-    border-radius: 6px;
-    font-family: 'Fira Code', monospace;
-    backdrop-filter: blur(10px);
+    background: rgba(255, 255, 255, var(--opacity-20));
+    padding: var(--space-1) var(--space-2);
+    border-radius: var(--radius-md);
+    font-family: var(--font-family-mono);
+    backdrop-filter: var(--backdrop-blur-md);
   }
 
   pre {
-    background: rgba(0, 0, 0, 0.3);
-    padding: 16px;
-    border-radius: 12px;
+    background: rgba(0, 0, 0, var(--opacity-30));
+    padding: var(--space-4);
+    border-radius: var(--radius-xl);
     overflow-x: auto;
-    margin: 16px auto;
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    margin: var(--space-4) auto;
+    backdrop-filter: var(--backdrop-blur-md);
+    border: 1px solid rgba(255, 255, 255, var(--opacity-10));
     text-align: left;
   }
 
@@ -213,7 +207,7 @@
   ol {
     display: inline-block;
     text-align: left;
-    margin: 12px auto;
+    margin: var(--space-3) auto;
   }
 
   div,
@@ -224,42 +218,43 @@
 }
 
 .additionalInfo {
-  margin-top: 20px;
-  padding-top: 20px;
-  border-top: 1px solid rgba(255, 255, 255, 0.2);
-  animation: slideDown 0.3s ease-out;
+  margin-top: var(--space-5);
+  padding-top: var(--space-5);
+  border-top: 1px solid rgba(255, 255, 255, var(--opacity-20));
+  animation: slideDown var(--transition-slow) ease-out;
   position: relative;
   z-index: 1;
 }
 
 .answerSection {
-  margin-bottom: 20px;
+  margin-bottom: var(--space-5);
 }
 
 .answerTitle {
-  color: #ffffff;
-  font-size: 16px;
-  font-weight: 600;
-  margin-bottom: 12px;
+  color: var(--card-text);
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-semibold);
+  margin-bottom: var(--space-3);
   display: flex;
   align-items: center;
-  gap: 8px;
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  gap: var(--space-2);
+  text-shadow: 0 2px 4px rgba(0, 0, 0, var(--opacity-10));
 
   @include mobile {
-    font-size: 14px;
+    font-size: var(--font-size-sm);
   }
 }
 
 .answerContent {
-  background: rgba(255, 255, 255, 0.1);
-  border-radius: 12px;
+  background: rgba(255, 255, 255, var(--opacity-10));
+  border-radius: var(--radius-xl);
   padding: fluid-to-tablet(16, 12);
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  backdrop-filter: var(--backdrop-blur-md);
+  border: 1px solid rgba(255, 255, 255, var(--opacity-20));
   @include fluid-text(16, 14);
-  line-height: 1.6;
-  color: rgba(255, 255, 255, 0.95);
+  line-height: var(--line-height-relaxed);
+  color: var(--card-text);
+  opacity: var(--opacity-95);
   text-align: center;
 
   * {
@@ -269,10 +264,10 @@
   img {
     max-width: 100%;
     height: auto;
-    border-radius: 8px;
-    margin: 12px auto;
+    border-radius: var(--radius-lg);
+    margin: var(--space-3) auto;
     display: block;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    box-shadow: var(--shadow-lg);
   }
 
   h1,
@@ -281,33 +276,34 @@
   h4,
   h5,
   h6 {
-    color: #ffffff;
-    margin-bottom: 12px;
-    font-weight: 600;
+    color: var(--card-text);
+    margin-bottom: var(--space-3);
+    font-weight: var(--font-weight-semibold);
     text-align: center;
   }
 
   p {
-    margin-bottom: 12px;
-    opacity: 0.95;
+    margin-bottom: var(--space-3);
+    opacity: var(--opacity-95);
     text-align: center;
   }
 
   code {
-    background: rgba(0, 0, 0, 0.3);
-    padding: 4px 8px;
-    border-radius: 6px;
-    font-family: 'Fira Code', monospace;
-    color: #ffffff;
+    background: rgba(0, 0, 0, var(--opacity-30));
+    padding: var(--space-1) var(--space-2);
+    border-radius: var(--radius-md);
+    font-family: var(--font-family-mono);
+    color: var(--card-text);
   }
 
   pre {
-    background: rgba(0, 0, 0, 0.4);
-    padding: 16px;
-    border-radius: 8px;
+    background: rgba(0, 0, 0, var(--opacity-30));
+    padding: var(--space-4);
+    border-radius: var(--radius-xl);
     overflow-x: auto;
-    margin: 12px auto;
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    margin: var(--space-4) auto;
+    backdrop-filter: var(--backdrop-blur-md);
+    border: 1px solid rgba(255, 255, 255, var(--opacity-10));
     text-align: left;
   }
 
@@ -315,12 +311,7 @@
   ol {
     display: inline-block;
     text-align: left;
-    margin: 12px auto;
-    padding-left: 20px;
-  }
-
-  li {
-    margin-bottom: 6px;
+    margin: var(--space-3) auto;
   }
 
   div,
@@ -330,83 +321,38 @@
   }
 }
 
-.cardFooter {
+.progressButtons {
   display: flex;
-  flex-direction: column;
-  gap: 16px;
   align-items: center;
+  justify-content: center;
+  gap: var(--space-4);
+  margin-top: var(--space-6);
+  padding-top: var(--space-5);
+  border-top: 1px solid rgba(255, 255, 255, var(--opacity-20));
 
   @include mobile {
-    justify-content: center;
+    flex-direction: column;
+    gap: var(--space-3);
   }
-}
-
-.progressActions {
-  display: flex;
-  gap: 12px;
-  justify-content: center;
 }
 
 .progressButton {
   display: flex;
   align-items: center;
-  gap: 8px;
-  padding: 10px 16px;
-  border: none;
-  border-radius: 12px;
-  font-size: 14px;
-  font-weight: 600;
+  gap: var(--space-2);
+  background: rgba(255, 255, 255, var(--opacity-15));
+  color: var(--card-text);
+  border: 1px solid rgba(255, 255, 255, var(--opacity-30));
+  border-radius: var(--radius-full);
+  padding: var(--space-3) var(--space-6);
   cursor: pointer;
-  transition: all 0.3s ease;
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  background: rgba(255, 255, 255, 0.2);
-  color: #ffffff;
+  transition: all var(--transition-normal) var(--ease-in-out);
+  backdrop-filter: var(--backdrop-blur-md);
+  font-weight: var(--font-weight-medium);
+  user-select: none;
 
   @include hover {
-    background: rgba(255, 255, 255, 0.3);
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-  }
-
-  &:active:not(:disabled) {
-    transform: translateY(0);
-  }
-
-  &:disabled {
-    @include disabled;
-  }
-
-  &.decrementButton {
-    background: rgba(239, 68, 68, 0.2);
-    border-color: rgba(239, 68, 68, 0.3);
-
-    @include hover {
-      background: rgba(239, 68, 68, 0.3);
-    }
-  }
-}
-
-.tags {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  justify-content: center;
-}
-
-.tag {
-  background: rgba(255, 255, 255, 0.15);
-  color: rgba(255, 255, 255, 0.9);
-  padding: 4px 8px;
-  border-radius: 12px;
-  font-size: 12px;
-  font-weight: 500;
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  transition: all 0.3s ease;
-
-  @include hover {
-    background: rgba(255, 255, 255, 0.25);
+    background: rgba(255, 255, 255, var(--opacity-25));
     transform: translateY(-1px);
   }
 }
@@ -414,14 +360,15 @@
 .difficulty {
   display: flex;
   align-items: center;
-  gap: 8px;
-  font-size: 14px;
-  color: rgba(255, 255, 255, 0.8);
-  background: rgba(255, 255, 255, 0.1);
-  padding: 8px 12px;
-  border-radius: 20px;
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  gap: var(--space-2);
+  font-size: var(--font-size-sm);
+  color: var(--card-text);
+  opacity: var(--opacity-80);
+  background: rgba(255, 255, 255, var(--opacity-10));
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-full);
+  backdrop-filter: var(--backdrop-blur-md);
+  border: 1px solid rgba(255, 255, 255, var(--opacity-20));
 
   @include mobile {
     justify-content: center;

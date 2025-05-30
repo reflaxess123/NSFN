@@ -3,8 +3,18 @@ import { AppRoutes } from '@/app/providers/router';
 import { logoutUser } from '@/entities/User';
 import { LoginForm } from '@/features/LoginForm';
 import { Link } from '@/shared/components/Link';
+import { useTheme } from '@/shared/context/ThemeContext';
 import { useAppDispatch, useAuth, useModal } from '@/shared/hooks';
-import { Bird, Brain, Home, LogIn, LogOut, User } from 'lucide-react';
+import {
+  Bird,
+  Brain,
+  Home,
+  LogIn,
+  LogOut,
+  Moon,
+  Sun,
+  User,
+} from 'lucide-react';
 import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { toggleSidebar } from '../model/slice/sidebarSlice';
@@ -14,6 +24,7 @@ export const Sidebar = ({ children }: { children: React.ReactNode }) => {
   const dispatch = useAppDispatch();
   const isOpen = useSelector((state: RootState) => state.sidebar.isOpen);
   const { isAuthenticated, user } = useAuth();
+  const { theme, setTheme } = useTheme();
   const loginModal = useModal('login-modal');
 
   const handleOpenLogin = () => {
@@ -23,6 +34,18 @@ export const Sidebar = ({ children }: { children: React.ReactNode }) => {
   const handleLogout = () => {
     dispatch(logoutUser());
     dispatch(toggleSidebar());
+  };
+
+  const handleThemeToggle = () => {
+    setTheme(theme === 'light' ? 'dark' : 'light');
+  };
+
+  const getThemeIcon = () => {
+    return theme === 'light' ? <Sun size={24} /> : <Moon size={24} />;
+  };
+
+  const getThemeText = () => {
+    return theme === 'light' ? 'Светлая' : 'Темная';
   };
 
   useEffect(() => {
@@ -46,6 +69,7 @@ export const Sidebar = ({ children }: { children: React.ReactNode }) => {
             icon={<Home size={24} />}
             isParentHovered={isOpen}
             to="/"
+            variant="sidebar"
           />
           {isAuthenticated && (
             <Link
@@ -54,6 +78,7 @@ export const Sidebar = ({ children }: { children: React.ReactNode }) => {
               icon={<Brain size={24} />}
               isParentHovered={isOpen}
               to={AppRoutes.THEORY}
+              variant="sidebar"
             />
           )}
           {isAuthenticated && (
@@ -63,10 +88,21 @@ export const Sidebar = ({ children }: { children: React.ReactNode }) => {
               icon={<Bird size={24} />}
               isParentHovered={isOpen}
               to={AppRoutes.TASKS}
+              variant="sidebar"
             />
           )}
         </div>
+
         <div className={styles.linksBottom}>
+          <Link
+            text={getThemeText()}
+            className={styles.link}
+            icon={getThemeIcon()}
+            isParentHovered={isOpen}
+            onClick={handleThemeToggle}
+            variant="sidebar"
+          />
+
           {isAuthenticated ? (
             <Link
               text={user?.email || ''}
@@ -74,6 +110,7 @@ export const Sidebar = ({ children }: { children: React.ReactNode }) => {
               icon={<User size={24} />}
               isParentHovered={isOpen}
               to={AppRoutes.PROFILE}
+              variant="sidebar"
             />
           ) : (
             <Link
@@ -82,6 +119,7 @@ export const Sidebar = ({ children }: { children: React.ReactNode }) => {
               icon={<LogIn size={24} />}
               isParentHovered={isOpen}
               onClick={handleOpenLogin}
+              variant="sidebar"
             />
           )}
           {isAuthenticated && (
@@ -91,6 +129,7 @@ export const Sidebar = ({ children }: { children: React.ReactNode }) => {
               icon={<LogOut size={24} />}
               isParentHovered={isOpen}
               onClick={handleLogout}
+              variant="sidebar"
             />
           )}
         </div>

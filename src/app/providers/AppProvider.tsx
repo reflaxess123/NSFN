@@ -1,4 +1,5 @@
 import { ModalProvider } from '@/shared/components/Modal/model/context';
+import { ThemeProvider } from '@/shared/context';
 import type { ReactNode } from 'react';
 import { Provider } from 'react-redux';
 import { AuthProvider } from './auth/ui/AuthProvider';
@@ -13,15 +14,17 @@ interface AppProviderProps {
 
 export const AppProvider = ({ children }: AppProviderProps) => {
   return (
-    <Provider store={store}>
-      <AuthProvider>
-        <ModalProvider>
-          <QueryProvider>
-            {children || <AppRouter />}
-            <ModalRenderer />
-          </QueryProvider>
-        </ModalProvider>
-      </AuthProvider>
-    </Provider>
+    <ThemeProvider>
+      <Provider store={store}>
+        <AuthProvider>
+          <ModalProvider>
+            <QueryProvider>
+              {children || <AppRouter />}
+              <ModalRenderer />
+            </QueryProvider>
+          </ModalProvider>
+        </AuthProvider>
+      </Provider>
+    </ThemeProvider>
   );
 };

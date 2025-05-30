@@ -11,6 +11,7 @@ type LinkProps = {
   to?: string;
   onClick?: () => void;
   size?: 'small' | 'medium' | 'large';
+  variant?: 'default' | 'sidebar';
 };
 
 export const Link = ({
@@ -22,6 +23,7 @@ export const Link = ({
   to,
   onClick,
   size = 'medium',
+  variant = 'default',
 }: LinkProps) => {
   const navigate = useNavigate();
 
@@ -29,6 +31,7 @@ export const Link = ({
     <div
       className={clsx(styles.link, className, {
         [styles.hoverExpand]: hoverExpand,
+        [styles.sidebar]: variant === 'sidebar',
       })}
       onClick={() => {
         if (onClick) {
