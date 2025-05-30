@@ -1,7 +1,4 @@
 import { TheoryCard, useTheoryCards } from '@/entities/TheoryCard';
-import { PageWrapper } from '@/shared/components/PageWrapper';
-import { Text, TextSize } from '@/shared/components/Text';
-import { TextAlign, TextWeight } from '@/shared/components/Text/ui/Text';
 import styles from './Theory.module.scss';
 
 const Theory = () => {
@@ -11,25 +8,39 @@ const Theory = () => {
   });
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return (
+      <div className={styles.theory}>
+        <div className={styles.container}>
+          <div className={styles.loadingState}>Загружаем теорию...</div>
+        </div>
+      </div>
+    );
   }
 
   if (error) {
-    return <div>Error: {error.message}</div>;
+    return (
+      <div className={styles.theory}>
+        <div className={styles.container}>
+          <div className={styles.errorState}>
+            Ошибка загрузки: {error.message}
+          </div>
+        </div>
+      </div>
+    );
   }
 
   return (
-    <PageWrapper>
-      <div className={styles.theory}>
-        <Text
-          text="Теория"
-          size={TextSize.EXTRA_EXTRA_LARGE}
-          weight={TextWeight.MEDIUM}
-          align={TextAlign.CENTER}
-        />
-        {data?.data.map((card) => <TheoryCard key={card.id} card={card} />)}
+    <div className={styles.theory}>
+      <div className={styles.container}>
+        <div className={styles.title}>
+          <h1>Теория</h1>
+          <p>Изучайте материалы в удобном формате</p>
+        </div>
+        <div className={styles.cardsGrid}>
+          {data?.data.map((card) => <TheoryCard key={card.id} card={card} />)}
+        </div>
       </div>
-    </PageWrapper>
+    </div>
   );
 };
 
