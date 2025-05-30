@@ -3,6 +3,7 @@ import type { ReactNode } from 'react';
 import { Provider } from 'react-redux';
 import { AuthProvider } from './auth/ui/AuthProvider';
 import { ModalRenderer } from './modal/ui/ModalProvider';
+import { QueryProvider } from './query';
 import { store } from './redux';
 import { AppRouter } from './router';
 
@@ -15,8 +16,10 @@ export const AppProvider = ({ children }: AppProviderProps) => {
     <Provider store={store}>
       <AuthProvider>
         <ModalProvider>
-          {children || <AppRouter />}
-          <ModalRenderer />
+          <QueryProvider>
+            {children || <AppRouter />}
+            <ModalRenderer />
+          </QueryProvider>
         </ModalProvider>
       </AuthProvider>
     </Provider>
