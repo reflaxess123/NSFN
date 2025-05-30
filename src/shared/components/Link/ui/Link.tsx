@@ -10,6 +10,7 @@ type LinkProps = {
   isParentHovered?: boolean;
   to?: string;
   onClick?: () => void;
+  size?: 'small' | 'medium' | 'large';
 };
 
 export const Link = ({
@@ -20,6 +21,7 @@ export const Link = ({
   isParentHovered,
   to,
   onClick,
+  size = 'medium',
 }: LinkProps) => {
   const navigate = useNavigate();
 
@@ -41,6 +43,9 @@ export const Link = ({
         <div
           className={clsx(styles.text, {
             [styles.parentHoveredText]: isParentHovered,
+            [styles.small]: size === 'small',
+            [styles.medium]: size === 'medium',
+            [styles.large]: size === 'large',
           })}
         >
           {text}

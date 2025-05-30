@@ -1,105 +1,64 @@
 @use '@/app/styles/helpers' as *;
 
 .theory {
-  min-height: 100vh;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
-  padding: 40px 20px;
-  position: relative;
+  background: var(--color-zinc-300);
 
-  &::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background:
-      radial-gradient(
-        circle at 20% 80%,
-        rgba(120, 119, 198, 0.3) 0%,
-        transparent 50%
-      ),
-      radial-gradient(
-        circle at 80% 20%,
-        rgba(255, 255, 255, 0.1) 0%,
-        transparent 50%
-      ),
-      radial-gradient(
-        circle at 40% 40%,
-        rgba(120, 119, 198, 0.2) 0%,
-        transparent 50%
-      );
-    pointer-events: none;
+  .container {
+    width: 100%;
+    margin: 0 auto;
+    max-width: 1200px;
   }
-}
 
-.container {
-  max-width: 800px;
-  margin: 0 auto;
-  position: relative;
-  z-index: 1;
-}
+  .title {
+    margin-bottom: fluid-to-tablet(48, 32);
+    text-align: center;
 
-.title {
-  margin-bottom: 48px;
-  text-align: center;
+    h1 {
+      color: var(--color-zinc-900);
+      @include fluid-text(56, 40);
+      font-weight: 700;
+      margin-bottom: 16px;
+      user-select: none;
 
-  h1 {
+      @include mobile {
+        font-size: 2.5rem;
+      }
+    }
+  }
+
+  .cardsGrid {
+    display: flex;
+    flex-direction: column;
+    gap: fluid-to-tablet(24, 16);
+  }
+
+  .loadingState {
+    @include flex-center;
+    min-height: 200px;
     color: #ffffff;
-    font-size: 3.5rem;
-    font-weight: 700;
-    text-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    margin-bottom: 16px;
-    background: linear-gradient(135deg, #ffffff 0%, #f0f0f0 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+    @include fluid-text(20, 16);
+
+    &::after {
+      content: '';
+      @include square(24px);
+      border: 3px solid rgba(255, 255, 255, 0.3);
+      border-top: 3px solid #ffffff;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      margin-left: 12px;
+    }
   }
 
-  p {
-    color: rgba(255, 255, 255, 0.8);
-    font-size: 1.2rem;
-    font-weight: 300;
+  .errorState {
+    @include flex-center;
+    min-height: 200px;
+    color: #ff6b6b;
+    @include fluid-text(20, 16);
+    background: rgba(255, 107, 107, 0.1);
+    border-radius: 12px;
+    padding: fluid-to-tablet(24, 16);
+    backdrop-filter: blur(10px);
   }
-}
-
-.cardsGrid {
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
-}
-
-.loadingState {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 200px;
-  color: #ffffff;
-  font-size: 1.2rem;
-
-  &::after {
-    content: '';
-    width: 24px;
-    height: 24px;
-    border: 3px solid rgba(255, 255, 255, 0.3);
-    border-top: 3px solid #ffffff;
-    border-radius: 50%;
-    animation: spin 1s linear infinite;
-    margin-left: 12px;
-  }
-}
-
-.errorState {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 200px;
-  color: #ff6b6b;
-  font-size: 1.2rem;
-  background: rgba(255, 107, 107, 0.1);
-  border-radius: 12px;
-  padding: 24px;
-  backdrop-filter: blur(10px);
 }
 
 @keyframes spin {
@@ -108,19 +67,5 @@
   }
   100% {
     transform: rotate(360deg);
-  }
-}
-
-@media (max-width: 768px) {
-  .theory {
-    padding: 20px 16px;
-  }
-
-  .title h1 {
-    font-size: 2.5rem;
-  }
-
-  .container {
-    max-width: 100%;
   }
 }

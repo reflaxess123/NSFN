@@ -1,46 +1,39 @@
-import { TheoryCard, useTheoryCards } from '@/entities/TheoryCard';
+import {
+  InfiniteTheoryCards,
+  TheoryFiltersComponent,
+  type TheoryFilters,
+} from '@/entities/TheoryCard';
+import { PageWrapper } from '@/shared/components/PageWrapper';
+import { useState } from 'react';
 import styles from './Theory.module.scss';
 
 const Theory = () => {
-  const { data, isLoading, error } = useTheoryCards({
-    page: 1,
-    limit: 10,
+  const [filters, setFilters] = useState<TheoryFilters>({
+    sortBy: 'orderIndex',
+    sortOrder: 'asc',
   });
 
-  if (isLoading) {
-    return (
-      <div className={styles.theory}>
-        <div className={styles.container}>
-          <div className={styles.loadingState}>Загружаем теорию...</div>
-        </div>
-      </div>
-    );
-  }
-
-  if (error) {
-    return (
-      <div className={styles.theory}>
-        <div className={styles.container}>
-          <div className={styles.errorState}>
-            Ошибка загрузки: {error.message}
-          </div>
-        </div>
-      </div>
-    );
-  }
+  const handleFiltersChange = (newFilters: TheoryFilters) => {
+    setFilters(newFilters);
+  };
 
   return (
-    <div className={styles.theory}>
-      <div className={styles.container}>
-        <div className={styles.title}>
-          <h1>Теория</h1>
-          <p>Изучайте материалы в удобном формате</p>
-        </div>
-        <div className={styles.cardsGrid}>
-          {data?.data.map((card) => <TheoryCard key={card.id} card={card} />)}
+    <PageWrapper>
+      <div className={styles.theory}>
+        <div className={styles.container}>
+          <div className={styles.title}>
+            <h1>Теория</h1>
+          </div>
+
+          <TheoryFiltersComponent
+            filters={filters}
+            onFiltersChange={handleFiltersChange}
+          />
+
+          <InfiniteTheoryCards filters={filters} />
         </div>
       </div>
-    </div>
+    </PageWrapper>
   );
 };
 

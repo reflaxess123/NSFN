@@ -47,20 +47,24 @@ export const Sidebar = ({ children }: { children: React.ReactNode }) => {
             isParentHovered={isOpen}
             to="/"
           />
-          <Link
-            text="Теория"
-            className={styles.link}
-            icon={<Brain size={24} />}
-            isParentHovered={isOpen}
-            to={AppRoutes.THEORY}
-          />
-          <Link
-            text="Нарешка"
-            className={styles.link}
-            icon={<Bird size={24} />}
-            isParentHovered={isOpen}
-            to={AppRoutes.TASKS}
-          />
+          {isAuthenticated && (
+            <Link
+              text="Теория"
+              className={styles.link}
+              icon={<Brain size={24} />}
+              isParentHovered={isOpen}
+              to={AppRoutes.THEORY}
+            />
+          )}
+          {isAuthenticated && (
+            <Link
+              text="Нарешка"
+              className={styles.link}
+              icon={<Bird size={24} />}
+              isParentHovered={isOpen}
+              to={AppRoutes.TASKS}
+            />
+          )}
         </div>
         <div className={styles.linksBottom}>
           {isAuthenticated ? (

@@ -1,7 +1,12 @@
 @use 'constants' as *;
 @use 'sass:math';
 
-@function fluid-range($maxSize, $minSize, $maxViewportWidth, $minViewportWidth) {
+@function fluid-range(
+  $maxSize,
+  $minSize,
+  $maxViewportWidth,
+  $minViewportWidth
+) {
   $maxSizeRem: math.div($maxSize, 16);
   $minSizeRem: math.div($minSize, 16);
   $maxWidthRem: math.div($maxViewportWidth, 16);
@@ -52,7 +57,11 @@
   $slope: math.div(($maxSize - $minSize), ($maxWidth - $minWidth));
   $yAxisIntersections: -$minWidth * $slope + $minSize;
 
-  @return clamp(#{$minSize}px, #{$yAxisIntersections}px + #{$slope * 100vw}, #{$maxSize}px);
+  @return clamp(
+    #{$minSize}px,
+    #{$yAxisIntersections}px + #{$slope * 100vw},
+    #{$maxSize}px
+  );
 }
 
 @function fluid-to-laptop($max: 100, $min: 10) {
@@ -65,4 +74,8 @@
 
 @function fluid-to-mobile-s($max: 100, $min: 10) {
   @return fluid-range($max, $min, $container-tablet-width, 390);
+}
+
+@function fluid-to-mobile-small($max: 100, $min: 10) {
+  @return fluid-range($max, $min, $container-desktop-width, 500);
 }

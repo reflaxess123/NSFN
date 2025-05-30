@@ -3,7 +3,7 @@ import styles from './Loading.module.scss';
 
 export const Loading = () => {
   return (
-    <PageWrapper>
+    <PageWrapper onOpenLogin={undefined}>
       <div className={styles.center}>
         <div className={styles.loader}></div>
       </div>

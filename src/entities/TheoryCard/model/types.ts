@@ -45,3 +45,82 @@ export interface TheoryCardsQueryParams {
 // Тип для сортировки (можете расширить по необходимости)
 export type SortField = 'orderIndex' | 'createdAt' | 'updatedAt';
 export type SortOrder = 'asc' | 'desc';
+
+// Новые типы для категорий
+export interface SubCategory {
+  name: string;
+  cardCount: number;
+}
+
+export interface Category {
+  name: string;
+  subCategories: SubCategory[];
+  totalCards: number;
+}
+
+// Тип для фильтров
+export interface TheoryFilters {
+  category?: string;
+  subCategory?: string;
+  onlyUnstudied?: boolean;
+  sortBy?: SortField;
+  sortOrder?: SortOrder;
+  searchQuery?: string;
+}
+
+// Тип для обновления прогресса
+export interface UpdateProgressRequest {
+  action: 'increment' | 'decrement';
+}
+
+export interface UpdateProgressResponse {
+  userId: number;
+  cardId: string;
+  solvedCount: number;
+}
+
+// Тип для иконок категорий
+export interface CategoryIcon {
+  category: string;
+  icon: string;
+  color: string;
+}
+
+// Предустановленные иконки для категорий
+export const CATEGORY_ICONS: Record<string, CategoryIcon> = {
+  'JS ТЕОРИЯ': {
+    category: 'JS ТЕОРИЯ',
+    icon: '⚡',
+    color: '#f7df1e',
+  },
+  REACT: {
+    category: 'REACT',
+    icon: '⚛️',
+    color: '#61dafb',
+  },
+  'NODE.JS': {
+    category: 'NODE.JS',
+    icon: '🟢',
+    color: '#339933',
+  },
+  CSS: {
+    category: 'CSS',
+    icon: '🎨',
+    color: '#1572b6',
+  },
+  HTML: {
+    category: 'HTML',
+    icon: '📄',
+    color: '#e34f26',
+  },
+  TYPESCRIPT: {
+    category: 'TYPESCRIPT',
+    icon: '🔷',
+    color: '#3178c6',
+  },
+  DEFAULT: {
+    category: 'DEFAULT',
+    icon: '📚',
+    color: '#6b7280',
+  },
+};

@@ -1,11 +1,11 @@
 @use '@/app/styles/helpers' as *;
 
 .theoryCard {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: #764ba2;
   border: none;
   border-radius: 16px;
-  padding: 24px;
-  margin-bottom: 24px;
+  padding: fluid-to-tablet(24, 20);
+  margin-bottom: fluid-to-tablet(24, 20);
   box-shadow:
     0 8px 32px rgba(102, 126, 234, 0.2),
     0 4px 16px rgba(118, 75, 162, 0.1);
@@ -13,14 +13,11 @@
   position: relative;
   overflow: hidden;
   cursor: pointer;
+  user-select: none;
 
   &::before {
     content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
+    @include abs-cover;
     background: linear-gradient(
       135deg,
       rgba(255, 255, 255, 0.1) 0%,
@@ -29,7 +26,7 @@
     pointer-events: none;
   }
 
-  &:hover {
+  @include hover {
     transform: translateY(-8px) scale(1.02);
     box-shadow:
       0 16px 48px rgba(102, 126, 234, 0.3),
@@ -58,19 +55,82 @@
   z-index: 2;
 }
 
-.cardIcon {
-  font-size: 24px;
+.categoryInfo {
+  display: flex;
+  align-items: center;
+  gap: fluid-to-mobile-small(12, 4);
+}
+
+.categoryIcon {
+  font-size: fluid-to-tablet(24, 20);
   filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
 }
 
-.expandIcon {
-  width: 32px;
-  height: 32px;
-  background: rgba(255, 255, 255, 0.2);
-  border-radius: 50%;
+.categoryText {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.category {
+  font-size: fluid-to-mobile-small(14, 12);
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.9);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.subCategory {
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.7);
+  font-weight: 400;
+}
+
+.headerRight {
   display: flex;
   align-items: center;
-  justify-content: center;
+  gap: 16px;
+}
+
+.progressInfo {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(255, 255, 255, 0.15);
+  padding: 6px 12px;
+  border-radius: 20px;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+
+  @include mobile {
+    display: none;
+  }
+}
+
+.progressEmoji {
+  font-size: 14px;
+}
+
+.progressCount {
+  font-size: 14px;
+  font-weight: 700;
+  color: #ffffff;
+  min-width: 20px;
+  text-align: center;
+}
+
+.progressLevel {
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.expandIcon {
+  @include square(32px);
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  @include flex-center;
   font-size: 18px;
   font-weight: bold;
   color: #ffffff;
@@ -78,30 +138,36 @@
   backdrop-filter: blur(10px);
   border: 1px solid rgba(255, 255, 255, 0.3);
 
-  &:hover {
+  @include hover {
     background: rgba(255, 255, 255, 0.3);
     transform: scale(1.1);
   }
 }
 
 .question {
-  font-size: 18px;
+  @include fluid-text(18, 16);
   line-height: 1.6;
   color: #ffffff;
   font-weight: 500;
   position: relative;
   z-index: 1;
   text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  text-align: center;
+
+  * {
+    text-align: center;
+  }
 
   img {
     max-width: 100%;
     height: auto;
     border-radius: 12px;
-    margin: 16px 0;
+    margin: 16px auto;
+    display: block;
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
     transition: transform 0.3s ease;
 
-    &:hover {
+    @include hover {
       transform: scale(1.05);
     }
   }
@@ -115,11 +181,13 @@
     color: #ffffff;
     margin-bottom: 16px;
     font-weight: 600;
+    text-align: center;
   }
 
   p {
     margin-bottom: 12px;
     opacity: 0.95;
+    text-align: center;
   }
 
   code {
@@ -135,9 +203,23 @@
     padding: 16px;
     border-radius: 12px;
     overflow-x: auto;
-    margin: 16px 0;
+    margin: 16px auto;
     backdrop-filter: blur(10px);
     border: 1px solid rgba(255, 255, 255, 0.1);
+    text-align: left;
+  }
+
+  ul,
+  ol {
+    display: inline-block;
+    text-align: left;
+    margin: 12px auto;
+  }
+
+  div,
+  section,
+  article {
+    text-align: center;
   }
 }
 
@@ -163,23 +245,33 @@
   align-items: center;
   gap: 8px;
   text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+  @include mobile {
+    font-size: 14px;
+  }
 }
 
 .answerContent {
   background: rgba(255, 255, 255, 0.1);
   border-radius: 12px;
-  padding: 16px;
+  padding: fluid-to-tablet(16, 12);
   backdrop-filter: blur(10px);
   border: 1px solid rgba(255, 255, 255, 0.2);
-  font-size: 16px;
+  @include fluid-text(16, 14);
   line-height: 1.6;
   color: rgba(255, 255, 255, 0.95);
+  text-align: center;
+
+  * {
+    text-align: center;
+  }
 
   img {
     max-width: 100%;
     height: auto;
     border-radius: 8px;
-    margin: 12px 0;
+    margin: 12px auto;
+    display: block;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
   }
 
@@ -192,11 +284,13 @@
     color: #ffffff;
     margin-bottom: 12px;
     font-weight: 600;
+    text-align: center;
   }
 
   p {
     margin-bottom: 12px;
     opacity: 0.95;
+    text-align: center;
   }
 
   code {
@@ -212,25 +306,109 @@
     padding: 16px;
     border-radius: 8px;
     overflow-x: auto;
-    margin: 12px 0;
+    margin: 12px auto;
     border: 1px solid rgba(255, 255, 255, 0.1);
+    text-align: left;
   }
 
   ul,
   ol {
+    display: inline-block;
+    text-align: left;
+    margin: 12px auto;
     padding-left: 20px;
-    margin-bottom: 12px;
   }
 
   li {
     margin-bottom: 6px;
   }
+
+  div,
+  section,
+  article {
+    text-align: center;
+  }
 }
 
 .cardFooter {
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  gap: 16px;
   align-items: center;
+
+  @include mobile {
+    justify-content: center;
+  }
+}
+
+.progressActions {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+}
+
+.progressButton {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 16px;
+  border: none;
+  border-radius: 12px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  background: rgba(255, 255, 255, 0.2);
+  color: #ffffff;
+
+  @include hover {
+    background: rgba(255, 255, 255, 0.3);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  }
+
+  &:active:not(:disabled) {
+    transform: translateY(0);
+  }
+
+  &:disabled {
+    @include disabled;
+  }
+
+  &.decrementButton {
+    background: rgba(239, 68, 68, 0.2);
+    border-color: rgba(239, 68, 68, 0.3);
+
+    @include hover {
+      background: rgba(239, 68, 68, 0.3);
+    }
+  }
+}
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+}
+
+.tag {
+  background: rgba(255, 255, 255, 0.15);
+  color: rgba(255, 255, 255, 0.9);
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 500;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  transition: all 0.3s ease;
+
+  @include hover {
+    background: rgba(255, 255, 255, 0.25);
+    transform: translateY(-1px);
+  }
 }
 
 .difficulty {
@@ -244,6 +422,10 @@
   border-radius: 20px;
   backdrop-filter: blur(10px);
   border: 1px solid rgba(255, 255, 255, 0.2);
+
+  @include mobile {
+    justify-content: center;
+  }
 }
 
 @keyframes slideDown {
@@ -254,33 +436,5 @@
   to {
     opacity: 1;
     transform: translateY(0);
-  }
-}
-
-@media (max-width: 768px) {
-  .theoryCard {
-    padding: 20px;
-    margin-bottom: 20px;
-  }
-
-  .question {
-    font-size: 16px;
-  }
-
-  .answerContent {
-    font-size: 14px;
-    padding: 12px;
-  }
-
-  .answerTitle {
-    font-size: 14px;
-  }
-
-  .cardFooter {
-    justify-content: center;
-  }
-
-  .difficulty {
-    justify-content: center;
   }
 }
