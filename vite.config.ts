@@ -15,4 +15,13 @@ export default defineConfig({
       '@/entities': '/src/entities',
     },
   },
+  server: {
+    proxy: {
+      '/api': {
+        target: 'http://localhost:4000',
+        changeOrigin: true,
+        secure: false,
+      },
+    },
+  },
 });

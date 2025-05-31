@@ -8,10 +8,12 @@ import { useAppDispatch, useAuth, useModal } from '@/shared/hooks';
 import {
   Bird,
   Brain,
-  Home,
   LogIn,
   LogOut,
+  Map,
+  MessageSquare,
   Moon,
+  Settings,
   Sun,
   User,
 } from 'lucide-react';
@@ -64,11 +66,11 @@ export const Sidebar = ({ children }: { children: React.ReactNode }) => {
       >
         <div className={styles.linksTop}>
           <Link
-            text="Главная"
+            text="Админка"
             className={styles.link}
-            icon={<Home size={24} />}
+            icon={<Settings size={24} />}
             isParentHovered={isOpen}
-            to="/"
+            to={AppRoutes.ADMIN_PANEL}
             variant="sidebar"
           />
           {isAuthenticated && (
@@ -88,6 +90,26 @@ export const Sidebar = ({ children }: { children: React.ReactNode }) => {
               icon={<Bird size={24} />}
               isParentHovered={isOpen}
               to={AppRoutes.TASKS}
+              variant="sidebar"
+            />
+          )}
+          {isAuthenticated && (
+            <Link
+              text="Роадмап"
+              className={styles.link}
+              icon={<Map size={24} />}
+              isParentHovered={isOpen}
+              to={AppRoutes.ROADMAP}
+              variant="sidebar"
+            />
+          )}
+          {isAuthenticated && (
+            <Link
+              text="Чат"
+              className={styles.link}
+              icon={<MessageSquare size={24} />}
+              isParentHovered={isOpen}
+              to={AppRoutes.CHAT}
               variant="sidebar"
             />
           )}

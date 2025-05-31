@@ -4,9 +4,9 @@ import { Text, TextSize } from '@/shared/components/Text';
 import { TextAlign, TextWeight } from '@/shared/components/Text/ui/Text';
 import { useAuth, useTheme } from '@/shared/hooks';
 import { useEffect } from 'react';
-import styles from './Home.module.scss';
+import styles from './Adminka.module.scss';
 
-const Home = () => {
+const Adminka = () => {
   const { user, isAuthenticated, isInitialized, isLoading, error } = useAuth();
   const { theme } = useTheme();
 
@@ -62,4 +62,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default Adminka;

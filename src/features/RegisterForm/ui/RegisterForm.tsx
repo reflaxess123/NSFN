@@ -1,4 +1,4 @@
-import { loginUser } from '@/entities/User';
+import { registerUser } from '@/entities/User';
 import { LoginForm } from '@/features/LoginForm';
 import { ButtonVariant } from '@/shared/components/Button/model/types';
 import { Button } from '@/shared/components/Button/ui/Button';
@@ -23,7 +23,7 @@ export const RegisterForm = () => {
   };
 
   const onSubmit = (data: RegisterFormSchema) => {
-    dispatch(loginUser({ email: data.username, password: data.password }));
+    dispatch(registerUser({ email: data.username, password: data.password }));
   };
 
   return (

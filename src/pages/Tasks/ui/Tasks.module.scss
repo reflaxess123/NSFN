@@ -1,12 +1,43 @@
 @use '@/app/styles/helpers' as *;
 
 .tasks {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+
+  @media (max-width: 768px) {
+    padding: 16px;
+  }
+}
+
+.header {
+  margin-bottom: 32px;
+  text-align: center;
+}
+
+.subtitle {
+  margin-top: 8px;
+  color: var(--text-secondary);
+}
+
+.content {
   display: flex;
-  align-items: center;
-  justify-content: center;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.filtersSection {
   width: 100%;
-  height: 100%;
-  background: var(--bg-secondary);
-  color: var(--text-primary);
-  user-select: none;
+}
+
+.filters {
+  // Дополнительные стили для фильтров на странице
+}
+
+.blocksSection {
+  flex: 1;
+}
+
+.blocksList {
+  // Дополнительные стили для списка блоков
 }

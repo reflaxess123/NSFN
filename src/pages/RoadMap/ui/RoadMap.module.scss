@@ -1,0 +1,103 @@
+@use '@/app/styles/helpers' as *;
+
+.roadMap {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  background: var(--bg-primary);
+}
+
+.header {
+  padding: 20px;
+  background: var(--bg-secondary);
+  border-bottom: 1px solid var(--border-primary);
+
+  h1 {
+    margin: 0 0 10px 0;
+    color: var(--text-primary);
+    font-size: 24px;
+    font-weight: 600;
+  }
+}
+
+.controls {
+  display: flex;
+  gap: 20px;
+
+  p {
+    margin: 0;
+    font-size: 14px;
+    color: var(--text-secondary);
+  }
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    gap: 5px;
+  }
+}
+
+.canvasContainer {
+  flex: 1;
+  position: relative;
+  overflow: hidden;
+  background: var(--bg-primary);
+}
+
+.canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+  background: var(--bg-primary);
+
+  &:focus {
+    outline: none;
+  }
+}
+
+.loading,
+.error {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  gap: 16px;
+  color: var(--text-secondary);
+
+  h3 {
+    margin: 0;
+    color: var(--text-primary);
+    font-size: 18px;
+  }
+
+  p {
+    margin: 0;
+    text-align: center;
+    line-height: 1.5;
+  }
+}
+
+.error {
+  color: var(--danger-color);
+
+  h3 {
+    color: var(--danger-color);
+  }
+}
+
+.errorIcon {
+  color: var(--danger-color);
+}
+
+.spinner {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
