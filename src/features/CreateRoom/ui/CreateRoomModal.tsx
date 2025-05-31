@@ -1,10 +1,18 @@
-import type { ChatUser, CreateRoomRequest } from '@/entities/Chat';
+import type { CreateRoomRequest } from '@/entities/Chat';
 import { addRoom, setError } from '@/entities/Chat';
-import { chatApi } from '@/shared/api/chat';
-import { useAppDispatch } from '@/shared/hooks/redux';
+import { Modal } from '@/shared/components/Modal';
+import { RoleGuard } from '@/shared/components/RoleGuard';
+import { useAppDispatch, useChatUsers, useCreateRoom } from '@/shared/hooks';
 import { User, Users, X } from 'lucide-react';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import styles from './CreateRoomModal.module.scss';
+
+// Определяем размеры модального окна (копируем из Modal.tsx)
+enum ModalSize {
+  SM = 'sm',
+  MD = 'md',
+  LG = 'lg',
+}
 
 interface CreateRoomModalProps {
   isOpen: boolean;
@@ -20,27 +28,19 @@ export const CreateRoomModal = ({
   const [roomType, setRoomType] = useState<'PRIVATE' | 'GROUP'>('PRIVATE');
   const [roomName, setRoomName] = useState('');
   const [selectedUsers, setSelectedUsers] = useState<number[]>([]);
-  const [availableUsers, setAvailableUsers] = useState<ChatUser[]>([]);
-  const [isLoading, setIsLoading] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
 
   const dispatch = useAppDispatch();
 
-  // Загружаем список пользователей при открытии модала
-  useEffect(() => {
-    if (isOpen) {
-      loadUsers();
-    }
-  }, [isOpen]);
+  // Используем TanStack Query для пользователей
+  const {
+    data: availableUsers = [],
+    isLoading: usersLoading,
+    error: usersError,
+  } = useChatUsers();
 
-  const loadUsers = async () => {
-    try {
-      const users = await chatApi.getUsers();
-      setAvailableUsers(users);
-    } catch {
-      dispatch(setError('Не удалось загрузить список пользователей'));
-    }
-  };
+  // Используем TanStack Query мутацию для создания комнаты
+  const createRoomMutation = useCreateRoom();
 
   const handleUserToggle = (userId: number) => {
     setSelectedUsers((prev) =>
@@ -54,25 +54,26 @@ export const CreateRoomModal = ({
     e.preventDefault();
 
     if (selectedUsers.length === 0) {
+      console.error('Ошибка: не выбраны пользователи');
       dispatch(setError('Выберите хотя бы одного пользователя'));
       return;
     }
 
     if (roomType === 'GROUP' && !roomName.trim()) {
+      console.error('Ошибка: не указано название группы');
       dispatch(setError('Введите название группы'));
       return;
     }
 
-    setIsLoading(true);
+    const roomData: CreateRoomRequest = {
+      participantIds: selectedUsers,
+      type: roomType,
+      ...(roomType === 'GROUP' && { name: roomName.trim() }),
+    };
 
     try {
-      const roomData: CreateRoomRequest = {
-        participantIds: selectedUsers,
-        type: roomType,
-        ...(roomType === 'GROUP' && { name: roomName.trim() }),
-      };
+      const newRoom = await createRoomMutation.mutateAsync(roomData);
 
-      const newRoom = await chatApi.createRoom(roomData);
       dispatch(addRoom(newRoom));
 
       // Сбрасываем форму
@@ -83,10 +84,22 @@ export const CreateRoomModal = ({
 
       onRoomCreated?.(newRoom.id);
       onClose();
-    } catch {
-      dispatch(setError('Не удалось создать комнату'));
-    } finally {
-      setIsLoading(false);
+    } catch (error) {
+      console.error('Ошибка при создании комнаты:', error);
+
+      // Более детальная обработка ошибок
+      if (error instanceof Error) {
+        dispatch(setError(`Не удалось создать комнату: ${error.message}`));
+      } else if (typeof error === 'object' && error && 'response' in error) {
+        const axiosError = error as {
+          response?: { data?: { message?: string }; message?: string };
+        };
+        const errorMessage =
+          axiosError.response?.data?.message || 'Неизвестная ошибка';
+        dispatch(setError(`Не удалось создать комнату: ${errorMessage}`));
+      } else {
+        dispatch(setError('Не удалось создать комнату: неизвестная ошибка'));
+      }
     }
   };
 
@@ -94,11 +107,40 @@ export const CreateRoomModal = ({
     user.email.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
-  if (!isOpen) return null;
+  if (usersError) {
+    console.error('Ошибка загрузки пользователей:', usersError);
+  }
 
   return (
-    <div className={styles.overlay} onClick={onClose}>
-      <div className={styles.modal} onClick={(e) => e.stopPropagation()}>
+    <Modal
+      isOpen={isOpen}
+      onClose={onClose}
+      size={ModalSize.MD}
+      closeOnOverlay={true}
+      closeOnEsc={true}
+    >
+      <RoleGuard
+        requiredRole="USER"
+        fallback={
+          <div className={styles.accessDenied}>
+            <div className={styles.header}>
+              <h2 className={styles.title}>Доступ ограничен</h2>
+              <button
+                className={styles.closeButton}
+                onClick={onClose}
+                aria-label="Закрыть"
+              >
+                <X size={24} />
+              </button>
+            </div>
+            <div style={{ padding: '24px', textAlign: 'center' }}>
+              <p>
+                Для создания чатов необходимо быть авторизованным пользователем
+              </p>
+            </div>
+          </div>
+        }
+      >
         <div className={styles.header}>
           <h2 className={styles.title}>Создать чат</h2>
           <button
@@ -173,27 +215,60 @@ export const CreateRoomModal = ({
 
           {/* Список пользователей */}
           <div className={styles.usersList}>
-            {filteredUsers.map((user) => (
-              <label key={user.id} className={styles.userOption}>
-                <input
-                  type="checkbox"
-                  checked={selectedUsers.includes(user.id)}
-                  onChange={() => handleUserToggle(user.id)}
-                />
-                <div className={styles.userInfo}>
-                  <span className={styles.userEmail}>{user.email}</span>
-                  {user.isOnline && <span className={styles.onlineIndicator} />}
-                </div>
-              </label>
-            ))}
-
-            {filteredUsers.length === 0 && (
+            {usersLoading ? (
+              <div className={styles.emptyState}>Загрузка пользователей...</div>
+            ) : filteredUsers.length === 0 ? (
               <div className={styles.emptyState}>
                 {searchQuery
                   ? 'Пользователи не найдены'
-                  : 'Загрузка пользователей...'}
+                  : 'Нет доступных пользователей'}
               </div>
+            ) : (
+              filteredUsers.map((user) => {
+                const isSelected = selectedUsers.includes(user.id);
+                return (
+                  <label
+                    key={user.id}
+                    className={`${styles.userOption} ${
+                      isSelected ? styles.selected : ''
+                    }`}
+                  >
+                    <input
+                      type="checkbox"
+                      checked={isSelected}
+                      onChange={() => handleUserToggle(user.id)}
+                    />
+                    <div className={styles.userInfo}>
+                      <span className={styles.userEmail}>{user.email}</span>
+                      {user.isOnline && (
+                        <span className={styles.onlineIndicator} />
+                      )}
+                    </div>
+                  </label>
+                );
+              })
             )}
+          </div>
+
+          {/* Отладочная информация (временно) */}
+          <div className={styles.section}>
+            <div
+              style={{
+                padding: '8px',
+                background: 'var(--bg-secondary)',
+                borderRadius: '4px',
+                fontSize: '12px',
+                color: 'var(--text-secondary)',
+              }}
+            >
+              Отладка: Выбрано пользователей: {selectedUsers.length} | Всего
+              пользователей: {availableUsers.length} | Тип: {roomType} |
+              Название: "{roomName}" | Кнопка заблокирована:{' '}
+              {(
+                createRoomMutation.isPending || selectedUsers.length === 0
+              ).toString()}{' '}
+              | isLoading: {createRoomMutation.isPending.toString()}
+            </div>
           </div>
 
           {/* Кнопки */}
@@ -202,20 +277,38 @@ export const CreateRoomModal = ({
               type="button"
               className={styles.cancelButton}
               onClick={onClose}
-              disabled={isLoading}
+              disabled={createRoomMutation.isPending}
             >
               Отмена
             </button>
             <button
               type="submit"
               className={styles.createButton}
-              disabled={isLoading || selectedUsers.length === 0}
+              disabled={
+                createRoomMutation.isPending || selectedUsers.length === 0
+              }
+              onClick={(e) => {
+                // Если кнопка заблокирована, не позволяем отправку
+                if (
+                  createRoomMutation.isPending ||
+                  selectedUsers.length === 0
+                ) {
+                  e.preventDefault();
+                  console.error(
+                    'Кнопка заблокирована! isLoading:',
+                    createRoomMutation.isPending,
+                    'selectedUsers.length:',
+                    selectedUsers.length
+                  );
+                  return;
+                }
+              }}
             >
-              {isLoading ? 'Создание...' : 'Создать'}
+              {createRoomMutation.isPending ? 'Создание...' : 'Создать'}
             </button>
           </div>
         </form>
-      </div>
-    </div>
+      </RoleGuard>
+    </Modal>
   );
 };

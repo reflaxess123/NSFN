@@ -5,7 +5,12 @@ import {
   useQuery,
   useQueryClient,
 } from '@tanstack/react-query';
-import type { TheoryCardsQueryParams, UpdateProgressRequest } from './types';
+import type {
+  TheoryCard,
+  TheoryCardsQueryParams,
+  TheoryCardsResponse,
+  UpdateProgressRequest,
+} from './types';
 
 const useTheoryCards = (params: TheoryCardsQueryParams) => {
   return useQuery({
@@ -51,10 +56,56 @@ const useUpdateProgress = () => {
       cardId: string;
       data: UpdateProgressRequest;
     }) => theoryCardsApi.updateProgress(cardId, data),
-    onSuccess: () => {
-      // Обновляем кеш для всех запросов карточек
-      queryClient.invalidateQueries({ queryKey: ['theory-cards'] });
-      queryClient.invalidateQueries({ queryKey: ['theory-cards-infinite'] });
+    onSuccess: (response, variables) => {
+      // Обновляем данные напрямую в кеше без инвалидации
+      // Это избегает race condition между локальным обновлением и новым запросом
+
+      // Обновляем infinite queries
+      queryClient.setQueriesData<{
+        pages: TheoryCardsResponse[];
+        pageParams: unknown[];
+      }>({ queryKey: ['theory-cards-infinite'] }, (oldData) => {
+        if (!oldData) return oldData;
+
+        // Для infinite queries обновляем в pages
+        if ('pages' in oldData && oldData.pages) {
+          return {
+            ...oldData,
+            pages: oldData.pages.map((page: TheoryCardsResponse) => ({
+              ...page,
+              cards: page.cards.map((card: TheoryCard) =>
+                card.id === variables.cardId
+                  ? { ...card, currentUserSolvedCount: response.solvedCount }
+                  : card
+              ),
+            })),
+          };
+        }
+
+        return oldData;
+      });
+
+      // Обновляем обычные queries
+      queryClient.setQueriesData<TheoryCardsResponse>(
+        { queryKey: ['theory-cards'] },
+        (oldData) => {
+          if (!oldData) return oldData;
+
+          // Для обычных queries обновляем в cards
+          if ('cards' in oldData && oldData.cards) {
+            return {
+              ...oldData,
+              cards: oldData.cards.map((card: TheoryCard) =>
+                card.id === variables.cardId
+                  ? { ...card, currentUserSolvedCount: response.solvedCount }
+                  : card
+              ),
+            };
+          }
+
+          return oldData;
+        }
+      );
     },
   });
 };

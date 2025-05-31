@@ -9,6 +9,8 @@
   --bg-accent: #bb86fc; // Primary
   --bg-overlay: rgba(26, 0, 51, 0.8);
   --bg-muted: #2d1b4d;
+  --bg-hover: rgba(187, 134, 252, 0.1); // Цвет при наведении
+  --bg-disabled: #6b7280; // Более светлый серый для отключенных элементов
 
   --text-primary: #ffffff; // On Background
   --text-secondary: #b3b3b3; // Приглушенный белый
@@ -16,6 +18,7 @@
   --text-accent: #bb86fc; // Primary
   --text-inverse: #000000; // On Primary
   --text-muted: #666666;
+  --text-disabled: #9ca3af; // Более светлый серый для отключенного текста
 
   --border-primary: #4527a0;
   --border-secondary: #3700b3;
@@ -26,6 +29,22 @@
   --surface-secondary: #2d1b4d;
   --surface-elevated: #3700b3; // Тот же цвет что сайдбар
   --surface-overlay: #2d1b4d;
+
+  // === ACCENT ПЕРЕМЕННЫЕ ===
+  --accent-primary: #bb86fc; // Основной акцентный цвет
+  --accent-hover: #cf9fff; // Светлее при наведении
+  --accent-light: rgba(187, 134, 252, 0.2); // Светлый вариант с прозрачностью
+  --accent-dark: #9966cc; // Темнее для контраста
+
+  // === СТАТУСНЫЕ ЦВЕТА ===
+  --success-color: #10b981;
+  --success-hover: #34d399;
+  --warning-color: #f59e0b;
+  --warning-hover: #fbbf24;
+  --danger-color: #ef4444;
+  --danger-hover: #f87171;
+  --info-color: #3b82f6;
+  --info-hover: #60a5fa;
 
   // === СПЕЦИАЛЬНЫЕ ЦВЕТА ДЛЯ КОМПОНЕНТОВ В ТЕМНОЙ ТЕМЕ ===
   // Сайдбар - используем Primary Variant чтобы выделить его от фона

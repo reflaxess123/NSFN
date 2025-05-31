@@ -3,9 +3,9 @@ import {
   ButtonVariant,
 } from '@/shared/components/Button/model/types';
 import { Button } from '@/shared/components/Button/ui/Button';
+import { useRole } from '@/shared/hooks';
 import { useUpdateProgress } from '@/shared/hooks/useContentBlocks';
-import { Check, Minus, Plus, X } from 'lucide-react';
-import { useState } from 'react';
+import { Check, LogIn, Minus, Plus, X } from 'lucide-react';
 import styles from './ContentProgress.module.scss';
 
 interface ContentProgressProps {
@@ -22,12 +22,11 @@ export const ContentProgress = ({
   variant = 'default',
 }: ContentProgressProps) => {
   const updateProgressMutation = useUpdateProgress();
-  const [isUpdating, setIsUpdating] = useState(false);
+  const { isGuest } = useRole();
 
   const handleIncrement = async () => {
-    if (isUpdating) return;
+    if (updateProgressMutation.isPending) return;
 
-    setIsUpdating(true);
     try {
       await updateProgressMutation.mutateAsync({
         blockId,
@@ -35,15 +34,12 @@ export const ContentProgress = ({
       });
     } catch (error) {
       console.error('Ошибка увеличения прогресса:', error);
-    } finally {
-      setIsUpdating(false);
     }
   };
 
   const handleDecrement = async () => {
-    if (isUpdating || currentCount <= 0) return;
+    if (updateProgressMutation.isPending || currentCount <= 0) return;
 
-    setIsUpdating(true);
     try {
       await updateProgressMutation.mutateAsync({
         blockId,
@@ -51,10 +47,52 @@ export const ContentProgress = ({
       });
     } catch (error) {
       console.error('Ошибка уменьшения прогресса:', error);
-    } finally {
-      setIsUpdating(false);
     }
   };
+
+  // Для гостей показываем приглашение к авторизации
+  if (isGuest) {
+    if (variant === 'compact') {
+      return (
+        <div
+          className={`${styles.contentProgress} ${styles.guestCompact} ${className || ''}`}
+        >
+          <div className={styles.guestButton}>
+            <LogIn size={16} />
+          </div>
+        </div>
+      );
+    }
+
+    if (variant === 'detailed') {
+      return (
+        <div
+          className={`${styles.contentProgress} ${styles.guestDetailed} ${className || ''}`}
+        >
+          <div className={styles.guestInfo}>
+            <span className={styles.guestText}>
+              Войдите для отслеживания прогресса
+            </span>
+          </div>
+        </div>
+      );
+    }
+
+    // Default variant для гостей
+    return (
+      <div
+        className={`${styles.contentProgress} ${styles.guestDefault} ${className || ''}`}
+      >
+        <Button
+          size={ButtonSize.SM}
+          variant={ButtonVariant.GHOST}
+          leftIcon={<LogIn size={16} />}
+        >
+          Войти для прогресса
+        </Button>
+      </div>
+    );
+  }
 
   if (variant === 'compact') {
     return (
@@ -63,7 +101,7 @@ export const ContentProgress = ({
       >
         <button
           onClick={handleIncrement}
-          disabled={isUpdating}
+          disabled={updateProgressMutation.isPending}
           className={`${styles.compactButton} ${styles.increment}`}
           aria-label="Отметить как решено"
         >
@@ -75,7 +113,7 @@ export const ContentProgress = ({
             <span className={styles.count}>{currentCount}</span>
             <button
               onClick={handleDecrement}
-              disabled={isUpdating}
+              disabled={updateProgressMutation.isPending}
               className={`${styles.compactButton} ${styles.decrement}`}
               aria-label="Убрать отметку"
             >
@@ -100,7 +138,7 @@ export const ContentProgress = ({
         <div className={styles.actions}>
           <Button
             onClick={handleIncrement}
-            disabled={isUpdating}
+            disabled={updateProgressMutation.isPending}
             size={ButtonSize.SM}
             variant={ButtonVariant.PRIMARY}
             leftIcon={<Check size={16} />}
@@ -111,7 +149,7 @@ export const ContentProgress = ({
           {currentCount > 0 && (
             <Button
               onClick={handleDecrement}
-              disabled={isUpdating}
+              disabled={updateProgressMutation.isPending}
               size={ButtonSize.SM}
               variant={ButtonVariant.GHOST}
               leftIcon={<X size={16} />}
@@ -131,7 +169,7 @@ export const ContentProgress = ({
     >
       <Button
         onClick={handleIncrement}
-        disabled={isUpdating}
+        disabled={updateProgressMutation.isPending}
         size={ButtonSize.SM}
         variant={
           currentCount > 0 ? ButtonVariant.SECONDARY : ButtonVariant.PRIMARY
@@ -144,7 +182,7 @@ export const ContentProgress = ({
       {currentCount > 0 && (
         <Button
           onClick={handleDecrement}
-          disabled={isUpdating}
+          disabled={updateProgressMutation.isPending}
           size={ButtonSize.SM}
           variant={ButtonVariant.GHOST}
           leftIcon={<X size={16} />}

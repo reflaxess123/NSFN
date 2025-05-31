@@ -3,14 +3,17 @@ import { ContentFilters } from '@/features/ContentFilters';
 import { PageWrapper } from '@/shared/components/PageWrapper';
 import { TextSize } from '@/shared/components/Text';
 import { Text, TextAlign, TextWeight } from '@/shared/components/Text/ui/Text';
+import { useRole } from '@/shared/hooks';
 import { useAppSelector } from '@/shared/hooks/redux';
 import { useContentCategories } from '@/shared/hooks/useContentBlocks';
 import { ContentBlocksList } from '@/widgets/ContentBlocksList';
+import { LogIn } from 'lucide-react';
 import { useEffect } from 'react';
 import styles from './Tasks.module.scss';
 
 const Tasks = () => {
   const user = useAppSelector(selectUser);
+  const { isGuest } = useRole();
 
   // Загружаем категории при монтировании
   useContentCategories();
@@ -32,6 +35,18 @@ const Tasks = () => {
             weight={TextWeight.MEDIUM}
             align={TextAlign.CENTER}
           />
+
+          {/* Уведомление для гостей */}
+          {isGuest && (
+            <div className={styles.guestNotice}>
+              <LogIn size={20} />
+              <Text
+                text="Авторизуйтесь, чтобы отслеживать прогресс решения задач"
+                size={TextSize.MEDIUM}
+                align={TextAlign.CENTER}
+              />
+            </div>
+          )}
         </header>
 
         <div className={styles.content}>

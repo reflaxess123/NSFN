@@ -1,6 +1,7 @@
 import type { RootState } from '@/app/providers/redux/model/store';
 import { AppRoutes } from '@/app/providers/router';
 import { logoutUser } from '@/entities/User';
+import { isAdmin } from '@/entities/User/model/types';
 import { LoginForm } from '@/features/LoginForm';
 import { Link } from '@/shared/components/Link';
 import { useTheme } from '@/shared/context/ThemeContext';
@@ -13,7 +14,7 @@ import {
   Map,
   MessageSquare,
   Moon,
-  Settings,
+  Shield,
   Sun,
   User,
 } from 'lucide-react';
@@ -50,6 +51,9 @@ export const Sidebar = ({ children }: { children: React.ReactNode }) => {
     return theme === 'light' ? 'Светлая' : 'Темная';
   };
 
+  // Проверяем, является ли пользователь администратором
+  const userIsAdmin = user?.role && isAdmin(user.role);
+
   useEffect(() => {
     if (isAuthenticated) {
       loginModal.close();
@@ -65,44 +69,49 @@ export const Sidebar = ({ children }: { children: React.ReactNode }) => {
         onMouseLeave={() => dispatch(toggleSidebar())}
       >
         <div className={styles.linksTop}>
+          {/* Админка - только для администраторов */}
+          {userIsAdmin && (
+            <Link
+              text="Админка"
+              className={styles.link}
+              icon={<Shield size={24} />}
+              isParentHovered={isOpen}
+              to={AppRoutes.ADMIN_PANEL}
+              variant="sidebar"
+            />
+          )}
+
+          {/* Теория - доступна всем */}
           <Link
-            text="Админка"
+            text="Теория"
             className={styles.link}
-            icon={<Settings size={24} />}
+            icon={<Brain size={24} />}
             isParentHovered={isOpen}
-            to={AppRoutes.ADMIN_PANEL}
+            to={AppRoutes.THEORY}
             variant="sidebar"
           />
-          {isAuthenticated && (
-            <Link
-              text="Теория"
-              className={styles.link}
-              icon={<Brain size={24} />}
-              isParentHovered={isOpen}
-              to={AppRoutes.THEORY}
-              variant="sidebar"
-            />
-          )}
-          {isAuthenticated && (
-            <Link
-              text="Нарешка"
-              className={styles.link}
-              icon={<Bird size={24} />}
-              isParentHovered={isOpen}
-              to={AppRoutes.TASKS}
-              variant="sidebar"
-            />
-          )}
-          {isAuthenticated && (
-            <Link
-              text="Роадмап"
-              className={styles.link}
-              icon={<Map size={24} />}
-              isParentHovered={isOpen}
-              to={AppRoutes.ROADMAP}
-              variant="sidebar"
-            />
-          )}
+
+          {/* Нарешка - доступна всем */}
+          <Link
+            text="Нарешка"
+            className={styles.link}
+            icon={<Bird size={24} />}
+            isParentHovered={isOpen}
+            to={AppRoutes.TASKS}
+            variant="sidebar"
+          />
+
+          {/* Роадмап - доступен всем */}
+          <Link
+            text="Роадмап"
+            className={styles.link}
+            icon={<Map size={24} />}
+            isParentHovered={isOpen}
+            to={AppRoutes.ROADMAP}
+            variant="sidebar"
+          />
+
+          {/* Чат - только для авторизованных пользователей */}
           {isAuthenticated && (
             <Link
               text="Чат"

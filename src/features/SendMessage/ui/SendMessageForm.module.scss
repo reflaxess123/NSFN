@@ -84,14 +84,14 @@
   width: 36px;
   height: 36px;
   border: none;
-  background: var(--accent-primary);
-  color: white;
+  background: #bb86fc !important;
+  color: white !important;
   border-radius: 50%;
   cursor: pointer;
   transition: all 0.2s ease;
 
   &:hover:not(:disabled) {
-    background: var(--accent-hover);
+    background: #cf9fff !important;
     transform: scale(1.05);
   }
 
@@ -100,9 +100,37 @@
   }
 
   &:disabled {
-    background: var(--bg-disabled);
-    color: var(--text-disabled);
+    background: #6b7280 !important;
+    color: #9ca3af !important;
     cursor: not-allowed;
     transform: none;
+  }
+}
+
+// Альтернативные стили для светлой темы
+[data-theme='light'] .sendButton {
+  background: #764ba2 !important;
+
+  &:hover:not(:disabled) {
+    background: #563775 !important;
+  }
+
+  &:disabled {
+    background: #d1d5db !important;
+    color: #6b7280 !important;
+  }
+}
+
+// Альтернативные стили для темной темы
+[data-theme='dark'] .sendButton {
+  background: #bb86fc !important;
+
+  &:hover:not(:disabled) {
+    background: #cf9fff !important;
+  }
+
+  &:disabled {
+    background: #6b7280 !important;
+    color: #9ca3af !important;
   }
 }

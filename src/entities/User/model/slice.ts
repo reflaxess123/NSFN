@@ -1,5 +1,6 @@
 import type { PayloadAction } from '@reduxjs/toolkit';
 import { createSlice } from '@reduxjs/toolkit';
+import { checkProfile } from './thunks';
 import type { User } from './types';
 
 interface UserState {
@@ -42,6 +43,30 @@ const userSlice = createSlice({
       state.isLoading = false;
       state.isInitialized = true;
     },
+  },
+  extraReducers: (builder) => {
+    // checkProfile
+    builder
+      .addCase(checkProfile.fulfilled, (state, action) => {
+        if (action.payload) {
+          state.data = action.payload;
+          state.isAuthenticated = true;
+        } else {
+          // Пользователь не авторизован (401) - это нормально
+          state.data = null;
+          state.isAuthenticated = false;
+        }
+        state.isInitialized = true;
+        state.isLoading = false;
+        state.error = null;
+      })
+      .addCase(checkProfile.rejected, (state, action) => {
+        state.data = null;
+        state.isAuthenticated = false;
+        state.isInitialized = true;
+        state.isLoading = false;
+        state.error = action.payload as string;
+      });
   },
 });
 

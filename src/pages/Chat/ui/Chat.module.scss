@@ -3,11 +3,20 @@
 .chat {
   display: grid;
   grid-template-columns: 320px 1fr;
-  height: 100vh;
+  min-height: calc(100vh - 80px);
+  height: 100%;
   overflow: hidden;
+  border-radius: 16px;
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.12),
+    0 2px 8px rgba(0, 0, 0, 0.08);
+  background: var(--bg-primary);
+  border: 1px solid var(--border-primary);
 
   @media (max-width: 768px) {
     grid-template-columns: 1fr;
+    min-height: calc(100vh - 60px);
+    border-radius: 12px;
   }
 }
 
@@ -16,9 +25,13 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: 100vh;
+  min-height: calc(100vh - 160px);
   text-align: center;
   color: var(--text-secondary);
+
+  @media (max-width: 768px) {
+    min-height: calc(100vh - 120px);
+  }
 
   h2 {
     font-size: 24px;

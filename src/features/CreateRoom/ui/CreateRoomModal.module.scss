@@ -1,37 +1,12 @@
 @use '@/app/styles/helpers' as *;
 
-.overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(0, 0, 0, 0.5);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 1000;
-  padding: 20px;
-}
-
-.modal {
-  background: var(--bg-primary);
-  border-radius: 12px;
-  width: 100%;
-  max-width: 500px;
-  max-height: 80vh;
-  overflow: hidden;
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
-  display: flex;
-  flex-direction: column;
-}
-
 .header {
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 20px 24px;
   border-bottom: 1px solid var(--border-primary);
+  background: var(--bg-primary);
 }
 
 .title {
@@ -64,6 +39,7 @@
   padding: 24px;
   overflow-y: auto;
   flex: 1;
+  background: var(--bg-primary);
 }
 
 .section {
@@ -126,9 +102,18 @@
 
   input[type='radio'] {
     margin: 0;
+    width: 18px;
+    height: 18px;
+    accent-color: var(--accent-primary);
+    cursor: pointer;
   }
 
-  input[type='radio']:checked + & {
+  &:has(input[type='radio']:checked) {
+    border-color: var(--accent-primary);
+    background: var(--accent-light);
+  }
+
+  &.selected {
     border-color: var(--accent-primary);
     background: var(--accent-light);
   }
@@ -148,7 +133,7 @@
   gap: 12px;
   padding: 12px 16px;
   cursor: pointer;
-  transition: background-color 0.2s ease;
+  transition: all 0.2s ease;
   border-bottom: 1px solid var(--border-primary);
 
   &:last-child {
@@ -159,8 +144,22 @@
     background: var(--bg-hover);
   }
 
+  &:has(input[type='checkbox']:checked) {
+    background: var(--accent-light) !important;
+    border-left: 3px solid var(--accent-primary);
+  }
+
   input[type='checkbox'] {
     margin: 0;
+    width: 18px;
+    height: 18px;
+    accent-color: var(--accent-primary);
+    cursor: pointer;
+  }
+
+  &.selected {
+    background: var(--accent-light) !important;
+    border-left: 3px solid var(--accent-primary);
   }
 }
 
@@ -238,5 +237,20 @@
     background: var(--bg-disabled);
     color: var(--text-disabled);
     cursor: not-allowed;
+  }
+}
+
+.accessDenied {
+  background: var(--bg-primary);
+  color: var(--text-primary);
+
+  .header {
+    background: var(--bg-primary);
+  }
+
+  p {
+    margin: 0;
+    color: var(--text-secondary);
+    line-height: 1.5;
   }
 }

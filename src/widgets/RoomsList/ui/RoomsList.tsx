@@ -1,17 +1,13 @@
 import {
-  selectChatIsLoading,
   selectChatRooms,
   selectCurrentRoomId,
   setCurrentRoom,
-  setError,
-  setRooms,
 } from '@/entities/Chat';
 import { selectUser } from '@/entities/User';
 import { CreateRoomModal } from '@/features/CreateRoom';
-import { chatApi } from '@/shared/api/chat';
-import { useAppDispatch, useAppSelector } from '@/shared/hooks/redux';
+import { useAppDispatch, useAppSelector, useRooms } from '@/shared/hooks';
 import { Plus, Search } from 'lucide-react';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { RoomItem } from './RoomItem';
 import styles from './RoomsList.module.scss';
 
@@ -22,22 +18,10 @@ export const RoomsList = () => {
 
   const rooms = useAppSelector(selectChatRooms);
   const currentRoomId = useAppSelector(selectCurrentRoomId);
-  const isLoading = useAppSelector(selectChatIsLoading);
   const currentUser = useAppSelector(selectUser);
 
-  // Загружаем комнаты при монтировании
-  useEffect(() => {
-    loadRooms();
-  }, []);
-
-  const loadRooms = async () => {
-    try {
-      const userRooms = await chatApi.getRooms();
-      dispatch(setRooms(userRooms));
-    } catch {
-      dispatch(setError('Не удалось загрузить список чатов'));
-    }
-  };
+  // Используем TanStack Query для загрузки комнат
+  const { isLoading } = useRooms();
 
   const handleRoomSelect = (roomId: string) => {
     dispatch(setCurrentRoom(roomId));

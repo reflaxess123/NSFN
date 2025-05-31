@@ -1,9 +1,14 @@
 export {
   selectError,
+  selectHasRole,
+  selectIsAdmin,
   selectIsAuthenticated,
+  selectIsGuest,
   selectIsInitialized,
   selectIsLoading,
+  selectIsUser,
   selectUser,
+  selectUserRole,
 } from './model/selectors';
 export {
   clearUser,
@@ -18,4 +23,11 @@ export {
   logoutUser,
   registerUser,
 } from './model/thunks';
-export type { User } from './model/types';
+export {
+  ROLE_HIERARCHY,
+  hasRole,
+  isAdmin,
+  isGuest,
+  isUser,
+} from './model/types';
+export type { User, UserRole } from './model/types';

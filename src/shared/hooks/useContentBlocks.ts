@@ -4,6 +4,7 @@ import {
   setCurrentBlock,
   setError,
   updateBlockProgress,
+  type ContentBlock,
   type ContentBlocksFilters,
   type ContentBlocksResponse,
   type ContentProgressUpdate,
@@ -190,6 +191,15 @@ export const useUpdateProgress = () => {
           blockId: variables.blockId,
           solvedCount: data.solvedCount,
         })
+      );
+
+      // Обновляем конкретный блок в кеше
+      queryClient.setQueryData<ContentBlock>(
+        contentQueryKeys.block(variables.blockId),
+        (oldBlock) => {
+          if (!oldBlock) return oldBlock;
+          return { ...oldBlock, currentUserSolvedCount: data.solvedCount };
+        }
       );
 
       // Инвалидируем кэш для обновления UI

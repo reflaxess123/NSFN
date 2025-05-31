@@ -18,6 +18,16 @@ const Theory = lazy(() =>
 const RoadMap = lazy(() =>
   import('@/pages/RoadMap').then((module) => ({ default: module.RoadMap }))
 );
+const UserManagement = lazy(() =>
+  import('@/pages/Admin/UserManagement').then((module) => ({
+    default: module.UserManagement,
+  }))
+);
+const DetailedStats = lazy(() =>
+  import('@/pages/Admin/DetailedStats').then((module) => ({
+    default: module.DetailedStats,
+  }))
+);
 
 export enum AppRoutes {
   HOME = '/',
@@ -27,6 +37,8 @@ export enum AppRoutes {
   CHAT = '/chat',
   ADMIN_PANEL = '/admin-panel',
   ROADMAP = '/roadmap',
+  ADMIN_USERS = '/admin/users',
+  ADMIN_STATS = '/admin/stats',
 }
 
 export const routeConfig: AppRoute[] = [
@@ -37,4 +49,6 @@ export const routeConfig: AppRoute[] = [
   { path: AppRoutes.CHAT, element: <Chat /> },
   { path: AppRoutes.ADMIN_PANEL, element: <Adminka /> },
   { path: AppRoutes.ROADMAP, element: <RoadMap /> },
+  { path: AppRoutes.ADMIN_USERS, element: <UserManagement /> },
+  { path: AppRoutes.ADMIN_STATS, element: <DetailedStats /> },
 ];

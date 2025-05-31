@@ -1,6 +1,8 @@
 import {
   selectContentBlocksError,
   selectContentBlocksFilters,
+  type ContentBlock,
+  type ContentBlocksResponse,
 } from '@/entities/ContentBlock';
 import { ButtonVariant } from '@/shared/components/Button/model/types';
 import { Button } from '@/shared/components/Button/ui/Button';
@@ -24,8 +26,6 @@ export const ContentBlocksList = ({
   const error = useAppSelector(selectContentBlocksError);
   const loadMoreRef = useRef<HTMLDivElement>(null);
 
-  console.log('ContentBlocksList - текущие фильтры:', filters);
-
   const {
     data,
     error: queryError,
@@ -35,12 +35,6 @@ export const ContentBlocksList = ({
     isFetchingNextPage,
     isLoading,
   } = useInfiniteContentBlocks(filters);
-
-  console.log('ContentBlocksList - данные запроса:', {
-    data,
-    isLoading,
-    isFetching,
-  });
 
   // Автоматическая загрузка при прокручивании
   useEffect(() => {
@@ -69,7 +63,26 @@ export const ContentBlocksList = ({
 
   // Объединяем все блоки со всех страниц
   const allBlocks = useMemo(() => {
-    return data?.pages.flatMap((page) => page.data) || [];
+    if (!data?.pages) return [];
+
+    return data.pages.flatMap((page) => {
+      // Проверяем структуру каждой страницы
+      if (!page) {
+        return [];
+      }
+
+      // Возможно API возвращает данные в другом поле - проверяем все возможные варианты
+      const pageWithBlocks = page as ContentBlocksResponse & {
+        blocks?: ContentBlock[];
+      };
+      const blocks = page.data || pageWithBlocks.blocks || [];
+
+      if (!Array.isArray(blocks)) {
+        return [];
+      }
+
+      return blocks.filter((block) => block && block.id);
+    });
   }, [data]);
 
   // Получаем информацию о пагинации с последней страницы

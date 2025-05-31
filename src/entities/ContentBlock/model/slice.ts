@@ -67,7 +67,7 @@ const contentBlockSlice = createSlice({
 
       // Обновляем в списке блоков
       const blockIndex = state.blocks.findIndex(
-        (block) => block.id === blockId
+        (block) => block && block.id === blockId
       );
       if (blockIndex !== -1) {
         state.blocks[blockIndex].currentUserSolvedCount = solvedCount;
@@ -87,16 +87,11 @@ const contentBlockSlice = createSlice({
       state,
       action: PayloadAction<Partial<ContentBlocksFilters>>
     ) => {
-      console.log('Redux setFilters - старые фильтры:', state.filters);
-      console.log('Redux setFilters - новые фильтры:', action.payload);
-
       state.filters = { ...state.filters, ...action.payload };
       // При изменении фильтров (кроме page) сбрасываем на первую страницу
       if (action.payload.page === undefined) {
         state.filters.page = 1;
       }
-
-      console.log('Redux setFilters - итоговые фильтры:', state.filters);
     },
 
     resetFilters: (state) => {

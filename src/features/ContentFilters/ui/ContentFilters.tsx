@@ -9,7 +9,7 @@ import { Input } from '@/shared/components/Input';
 import { useAppDispatch, useAppSelector } from '@/shared/hooks/redux';
 import { useContentCategories } from '@/shared/hooks/useContentBlocks';
 import { Search, X } from 'lucide-react';
-import { useEffect, useState } from 'react';
+import { useCallback } from 'react';
 import styles from './ContentFilters.module.scss';
 
 interface ContentFiltersProps {
@@ -22,44 +22,35 @@ export const ContentFilters = ({
   className,
 }: ContentFiltersProps) => {
   const dispatch = useAppDispatch();
-  const currentFilters = useAppSelector(selectContentBlocksFilters);
+  const filters = useAppSelector(selectContentBlocksFilters);
   const { data: categories } = useContentCategories();
 
-  console.log('Загруженные категории:', categories);
+  const handleFilterChange = useCallback(
+    (
+      key: keyof ContentBlocksFilters,
+      value: string | number | boolean | undefined
+    ) => {
+      const newFilters = { ...filters, [key]: value };
+      dispatch(setFilters(newFilters));
+      onFiltersChange?.(newFilters);
+    },
+    [dispatch, filters, onFiltersChange]
+  );
 
-  const [localFilters, setLocalFilters] =
-    useState<ContentBlocksFilters>(currentFilters);
+  const handleMainCategoryChange = useCallback(
+    (mainCategory: string) => {
+      const newFilters = {
+        ...filters,
+        mainCategory: mainCategory || undefined,
+        subCategory: undefined, // Сбрасываем подкатегорию при изменении основной категории
+      };
+      dispatch(setFilters(newFilters));
+      onFiltersChange?.(newFilters);
+    },
+    [dispatch, filters, onFiltersChange]
+  );
 
-  // Синхронизируем локальные фильтры с Redux
-  useEffect(() => {
-    setLocalFilters(currentFilters);
-  }, [currentFilters]);
-
-  const handleFilterChange = (
-    key: keyof ContentBlocksFilters,
-    value: string | number | boolean | undefined
-  ) => {
-    const newFilters = { ...localFilters, [key]: value };
-    setLocalFilters(newFilters);
-    // Применяем фильтры сразу для лучшего UX
-    dispatch(setFilters(newFilters));
-    onFiltersChange?.(newFilters);
-  };
-
-  const handleMainCategoryChange = (mainCategory: string) => {
-    console.log('Изменение основной категории:', mainCategory);
-    const newFilters = {
-      ...localFilters,
-      mainCategory: mainCategory || undefined,
-      subCategory: undefined, // Сбрасываем подкатегорию при изменении основной категории
-    };
-    console.log('Новые фильтры:', newFilters);
-    setLocalFilters(newFilters);
-    dispatch(setFilters(newFilters));
-    onFiltersChange?.(newFilters);
-  };
-
-  const handleReset = () => {
+  const handleReset = useCallback(() => {
     const resetFilters: ContentBlocksFilters = {
       page: 1,
       limit: 20,
@@ -71,9 +62,8 @@ export const ContentFilters = ({
       onlyUnsolved: undefined,
     };
     dispatch(setFilters(resetFilters));
-    setLocalFilters(resetFilters);
     onFiltersChange?.(resetFilters);
-  };
+  }, [dispatch, onFiltersChange]);
 
   const handleSearchSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -88,10 +78,10 @@ export const ContentFilters = ({
 
   const hasActiveFilters = () => {
     return !!(
-      localFilters.q ||
-      localFilters.onlyUnsolved ||
-      localFilters.mainCategory ||
-      localFilters.subCategory
+      filters.q ||
+      filters.onlyUnsolved ||
+      filters.mainCategory ||
+      filters.subCategory
     );
   };
 
@@ -104,11 +94,11 @@ export const ContentFilters = ({
           <Input
             type="text"
             placeholder="Поиск по контенту..."
-            value={localFilters.q || ''}
+            value={filters.q || ''}
             onChange={(e) => handleFilterChange('q', e.target.value)}
             className={styles.searchInput}
           />
-          {localFilters.q && (
+          {filters.q && (
             <button
               type="button"
               onClick={() => handleFilterChange('q', '')}
@@ -126,7 +116,7 @@ export const ContentFilters = ({
         {/* Основная категория */}
         <div className={styles.filterGroup}>
           <select
-            value={localFilters.mainCategory || ''}
+            value={filters.mainCategory || ''}
             onChange={(e) => handleMainCategoryChange(e.target.value || '')}
             className={styles.filterSelect}
           >
@@ -140,23 +130,21 @@ export const ContentFilters = ({
         </div>
 
         {/* Подкатегория */}
-        {localFilters.mainCategory && (
+        {filters.mainCategory && (
           <div className={styles.filterGroup}>
             <select
-              value={localFilters.subCategory || ''}
+              value={filters.subCategory || ''}
               onChange={(e) =>
                 handleFilterChange('subCategory', e.target.value || undefined)
               }
               className={styles.filterSelect}
             >
               <option value="">Все подкатегории</option>
-              {getSubCategories(localFilters.mainCategory).map(
-                (subCategory) => (
-                  <option key={subCategory} value={subCategory}>
-                    {subCategory}
-                  </option>
-                )
-              )}
+              {getSubCategories(filters.mainCategory).map((subCategory) => (
+                <option key={subCategory} value={subCategory}>
+                  {subCategory}
+                </option>
+              ))}
             </select>
           </div>
         )}
@@ -165,7 +153,7 @@ export const ContentFilters = ({
         <label className={styles.checkboxFilter}>
           <input
             type="checkbox"
-            checked={localFilters.onlyUnsolved || false}
+            checked={filters.onlyUnsolved || false}
             onChange={(e) =>
               handleFilterChange('onlyUnsolved', e.target.checked)
             }

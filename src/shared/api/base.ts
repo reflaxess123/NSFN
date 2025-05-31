@@ -11,7 +11,13 @@ export const apiInstance = axios.create({
 apiInstance.interceptors.response.use(
   (response) => response,
   (error) => {
-    const message = error.response?.data?.message || 'An unknown error occurred';
-    return Promise.reject(new Error(message));
+    const status = error.response?.status;
+    const message =
+      error.response?.data?.message || 'An unknown error occurred';
+
+    // Включаем статус код в сообщение для правильной обработки 401
+    const errorMessage = status ? `${status}: ${message}` : message;
+
+    return Promise.reject(new Error(errorMessage));
   }
 );

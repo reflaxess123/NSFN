@@ -1,5 +1,6 @@
 import { addOnlineUser, removeOnlineUser, setError } from '@/entities/Chat';
 import { selectUser } from '@/entities/User';
+import { PageWrapper } from '@/shared/components/PageWrapper';
 import { useAppDispatch, useAppSelector } from '@/shared/hooks/redux';
 import { webSocketService } from '@/shared/services/websocket';
 import { ChatWindow } from '@/widgets/ChatWindow';
@@ -47,17 +48,21 @@ export const Chat = () => {
 
   if (!currentUser) {
     return (
-      <div className={styles.authRequired}>
-        <h2>Требуется авторизация</h2>
-        <p>Войдите в систему для доступа к чату</p>
-      </div>
+      <PageWrapper>
+        <div className={styles.authRequired}>
+          <h2>Требуется авторизация</h2>
+          <p>Войдите в систему для доступа к чату</p>
+        </div>
+      </PageWrapper>
     );
   }
 
   return (
-    <div className={styles.chat}>
-      <RoomsList />
-      <ChatWindow />
-    </div>
+    <PageWrapper>
+      <div className={styles.chat}>
+        <RoomsList />
+        <ChatWindow />
+      </div>
+    </PageWrapper>
   );
 };

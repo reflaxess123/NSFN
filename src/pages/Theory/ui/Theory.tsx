@@ -1,21 +1,27 @@
 import {
   InfiniteTheoryCards,
+  selectTheoryFilters,
+  setFilters,
   TheoryFiltersComponent,
   type TheoryFilters,
 } from '@/entities/TheoryCard';
 import { PageWrapper } from '@/shared/components/PageWrapper';
-import { useState } from 'react';
+import { useAppDispatch, useAppSelector, useRole } from '@/shared/hooks';
+import { LogIn } from 'lucide-react';
+import { useCallback } from 'react';
 import styles from './Theory.module.scss';
 
 const Theory = () => {
-  const [filters, setFilters] = useState<TheoryFilters>({
-    sortBy: 'orderIndex',
-    sortOrder: 'asc',
-  });
+  const dispatch = useAppDispatch();
+  const filters = useAppSelector(selectTheoryFilters);
+  const { isGuest } = useRole();
 
-  const handleFiltersChange = (newFilters: TheoryFilters) => {
-    setFilters(newFilters);
-  };
+  const handleFiltersChange = useCallback(
+    (newFilters: TheoryFilters) => {
+      dispatch(setFilters(newFilters));
+    },
+    [dispatch]
+  );
 
   return (
     <PageWrapper>
@@ -23,6 +29,14 @@ const Theory = () => {
         <div className={styles.container}>
           <div className={styles.title}>
             <h1>Теория</h1>
+
+            {/* Уведомление для гостей */}
+            {isGuest && (
+              <div className={styles.guestNotice}>
+                <LogIn size={20} />
+                <p>Авторизуйтесь, чтобы отслеживать прогресс изучения теории</p>
+              </div>
+            )}
           </div>
 
           <TheoryFiltersComponent

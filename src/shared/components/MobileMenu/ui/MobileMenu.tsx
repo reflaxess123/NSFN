@@ -1,5 +1,6 @@
 import { AppRoutes } from '@/app/providers/router';
 import { logoutUser } from '@/entities/User';
+import { isAdmin } from '@/entities/User/model/types';
 import { Link } from '@/shared/components/Link';
 import { useTheme } from '@/shared/context/ThemeContext';
 import { useAppDispatch, useAuth } from '@/shared/hooks';
@@ -10,7 +11,10 @@ import {
   Home,
   LogIn,
   LogOut,
+  Map,
+  MessageSquare,
   Moon,
+  Shield,
   Sun,
   User,
 } from 'lucide-react';
@@ -59,6 +63,9 @@ export const MobileMenu = ({
     return theme === 'light' ? 'Светлая' : 'Темная';
   };
 
+  // Проверяем, является ли пользователь администратором
+  const userIsAdmin = user?.role && isAdmin(user.role);
+
   return (
     <AnimatePresence>
       {isOpen && (
@@ -92,24 +99,64 @@ export const MobileMenu = ({
                   size="large"
                   variant="sidebar"
                 />
-                {isAuthenticated && (
+
+                {/* Админка - только для администраторов */}
+                {userIsAdmin && (
                   <Link
-                    text="Теория"
+                    text="Админка"
                     className={styles.link}
-                    icon={<Brain size={64} />}
-                    to={AppRoutes.THEORY}
+                    icon={<Shield size={64} />}
+                    to={AppRoutes.ADMIN_PANEL}
                     onClick={handleLinkClick}
                     isParentHovered={true}
                     size="large"
                     variant="sidebar"
                   />
                 )}
+
+                {/* Теория - доступна всем */}
+                <Link
+                  text="Теория"
+                  className={styles.link}
+                  icon={<Brain size={64} />}
+                  to={AppRoutes.THEORY}
+                  onClick={handleLinkClick}
+                  isParentHovered={true}
+                  size="large"
+                  variant="sidebar"
+                />
+
+                {/* Нарешка - доступна всем */}
+                <Link
+                  text="Нарешка"
+                  className={styles.link}
+                  icon={<Bird size={64} />}
+                  to={AppRoutes.TASKS}
+                  onClick={handleLinkClick}
+                  isParentHovered={true}
+                  size="large"
+                  variant="sidebar"
+                />
+
+                {/* Роадмап - доступен всем */}
+                <Link
+                  text="Роадмап"
+                  className={styles.link}
+                  icon={<Map size={64} />}
+                  to={AppRoutes.ROADMAP}
+                  onClick={handleLinkClick}
+                  isParentHovered={true}
+                  size="large"
+                  variant="sidebar"
+                />
+
+                {/* Чат - только для авторизованных пользователей */}
                 {isAuthenticated && (
                   <Link
-                    text="Нарешка"
+                    text="Чат"
                     className={styles.link}
-                    icon={<Bird size={64} />}
-                    to={AppRoutes.TASKS}
+                    icon={<MessageSquare size={64} />}
+                    to={AppRoutes.CHAT}
                     onClick={handleLinkClick}
                     isParentHovered={true}
                     size="large"

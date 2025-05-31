@@ -15,10 +15,16 @@ export const chatApi = {
       .then((response: AxiosResponse<ChatRoom[]>) => response.data),
 
   // Создать новую комнату
-  createRoom: (data: CreateRoomRequest): Promise<ChatRoom> =>
-    apiInstance
+  createRoom: (data: CreateRoomRequest): Promise<ChatRoom> => {
+    return apiInstance
       .post('/api/chat/rooms', data)
-      .then((response: AxiosResponse<ChatRoom>) => response.data),
+      .then((response: AxiosResponse<ChatRoom>) => {
+        return response.data;
+      })
+      .catch((error) => {
+        throw error;
+      });
+  },
 
   // Получить сообщения комнаты
   getRoomMessages: (
@@ -39,10 +45,16 @@ export const chatApi = {
       .then((response: AxiosResponse<void>) => response.data),
 
   // Получить список пользователей
-  getUsers: (): Promise<ChatUser[]> =>
-    apiInstance
+  getUsers: (): Promise<ChatUser[]> => {
+    return apiInstance
       .get('/api/chat/users')
-      .then((response: AxiosResponse<ChatUser[]>) => response.data),
+      .then((response: AxiosResponse<ChatUser[]>) => {
+        return response.data;
+      })
+      .catch((error) => {
+        throw error;
+      });
+  },
 
   // Удалить сообщение
   deleteMessage: (messageId: string): Promise<void> =>

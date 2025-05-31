@@ -15,6 +15,11 @@ export const checkProfile = createAsyncThunk(
       dispatch(setUser(user));
       return user;
     } catch (error) {
+      if (error instanceof Error && error.message.includes('401')) {
+        dispatch(clearUser());
+        return null;
+      }
+
       dispatch(clearUser());
       return rejectWithValue(
         error instanceof Error ? error.message : 'An unknown error occurred'

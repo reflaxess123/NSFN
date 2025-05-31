@@ -25,7 +25,7 @@ export interface Pagination {
 
 // Ответ API для получения карточек
 export interface TheoryCardsResponse {
-  data: TheoryCard[];
+  cards: TheoryCard[];
   pagination: Pagination;
 }
 

@@ -1,5 +1,8 @@
-export { useModal } from '../components/Modal';
-export { useTheme } from '../context';
+export { useModal } from '../components/Modal/model/hooks';
 export { useAppDispatch, useAppSelector } from './redux';
-export { useAuth } from './useAuth';
+export * from './useAdminAPI';
+export * from './useAuth';
+export * from './useChatAPI';
+export * from './useContentBlocks';
 export { usePageTransition } from './usePageTransition';
+export { useRole } from './useRole';

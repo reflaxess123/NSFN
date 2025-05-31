@@ -33,10 +33,14 @@ export const InfiniteTheoryCards = ({ filters }: InfiniteTheoryCardsProps) => {
     (entries: IntersectionObserverEntry[]) => {
       const [target] = entries;
       if (target.isIntersecting && hasNextPage && !isFetchingNextPage) {
+        const lastPage = data?.pages?.[data.pages.length - 1];
+        if (lastPage && lastPage.cards?.length === 0) {
+          return;
+        }
         fetchNextPage();
       }
     },
-    [fetchNextPage, hasNextPage, isFetchingNextPage]
+    [fetchNextPage, hasNextPage, isFetchingNextPage, data?.pages]
   );
 
   useEffect(() => {
@@ -74,7 +78,7 @@ export const InfiniteTheoryCards = ({ filters }: InfiniteTheoryCardsProps) => {
     );
   }
 
-  const allCards = data?.pages.flatMap((page) => page.data) || [];
+  const allCards = data?.pages.flatMap((page) => page.cards) || [];
   const totalItems = data?.pages[0]?.pagination.totalItems || 0;
 
   if (allCards.length === 0) {
@@ -105,9 +109,14 @@ export const InfiniteTheoryCards = ({ filters }: InfiniteTheoryCardsProps) => {
       </div>
 
       <div className={styles.cardsGrid}>
-        {allCards.map((card) => (
-          <TheoryCard key={card.id} card={card} />
-        ))}
+        {allCards
+          .filter((card) => {
+            const hasCard = card && card.id;
+            return hasCard;
+          })
+          .map((card) => (
+            <TheoryCard key={card.id} card={card} />
+          ))}
       </div>
 
       {hasNextPage && (
