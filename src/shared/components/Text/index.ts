@@ -1,1 +1,2 @@
-export { Text, TextSize } from './ui/Text';
+export { TextAlign, TextSize, TextWeight } from './model/types';
+export { Text } from './ui/Text';
