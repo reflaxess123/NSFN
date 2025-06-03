@@ -1,8 +1,12 @@
 import { selectUser } from '@/entities/User';
 import { ContentFilters } from '@/features/ContentFilters';
 import { PageWrapper } from '@/shared/components/PageWrapper';
-import { TextSize } from '@/shared/components/Text';
-import { Text, TextAlign, TextWeight } from '@/shared/components/Text/ui/Text';
+import {
+  Text,
+  TextAlign,
+  TextSize,
+  TextWeight,
+} from '@/shared/components/Text';
 import { useRole } from '@/shared/hooks';
 import { useAppSelector } from '@/shared/hooks/redux';
 import { useContentCategories } from '@/shared/hooks/useContentBlocks';
@@ -31,7 +35,7 @@ const Tasks = () => {
         <header className={styles.header}>
           <Text
             text="Задачи и упражнения"
-            size={TextSize.EXTRA_EXTRA_LARGE}
+            size={TextSize.XXL}
             weight={TextWeight.MEDIUM}
             align={TextAlign.CENTER}
           />
@@ -42,7 +46,7 @@ const Tasks = () => {
               <LogIn size={20} />
               <Text
                 text="Авторизуйтесь, чтобы отслеживать прогресс решения задач"
-                size={TextSize.MEDIUM}
+                size={TextSize.MD}
                 align={TextAlign.CENTER}
               />
             </div>

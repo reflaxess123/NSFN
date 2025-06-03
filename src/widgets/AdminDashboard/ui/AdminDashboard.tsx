@@ -1,6 +1,10 @@
 import { AppRoutes } from '@/app/providers/router';
-import { Text, TextSize } from '@/shared/components/Text';
-import { TextAlign, TextWeight } from '@/shared/components/Text/ui/Text';
+import {
+  Text,
+  TextAlign,
+  TextSize,
+  TextWeight,
+} from '@/shared/components/Text';
 import { useAdminStats } from '@/shared/hooks/useAdminAPI';
 import { useNavigate } from 'react-router-dom';
 import styles from './AdminDashboard.module.scss';
@@ -10,15 +14,15 @@ export const AdminDashboard = () => {
   const navigate = useNavigate();
 
   const handleDetailedStats = () => {
-    navigate(AppRoutes.ADMIN_STATS);
+    void navigate(AppRoutes.ADMIN_STATS);
   };
 
   const handleUserManagement = () => {
-    navigate(AppRoutes.ADMIN_USERS);
+    void navigate(AppRoutes.ADMIN_USERS);
   };
 
   const handleRetry = () => {
-    refetch();
+    void refetch();
   };
 
   if (loading) {
@@ -27,7 +31,7 @@ export const AdminDashboard = () => {
         <div className={styles.loading}>
           <Text
             text="⏳ Загрузка статистики..."
-            size={TextSize.MEDIUM}
+            size={TextSize.MD}
             align={TextAlign.CENTER}
           />
         </div>
@@ -41,13 +45,13 @@ export const AdminDashboard = () => {
         <div className={styles.error}>
           <Text
             text="❌ Ошибка"
-            size={TextSize.LARGE}
+            size={TextSize.LG}
             weight={TextWeight.MEDIUM}
             align={TextAlign.CENTER}
           />
           <Text
             text={error instanceof Error ? error.message : 'Неизвестная ошибка'}
-            size={TextSize.MEDIUM}
+            size={TextSize.MD}
             align={TextAlign.CENTER}
           />
           <button className={styles.retryButton} onClick={handleRetry}>
@@ -64,7 +68,7 @@ export const AdminDashboard = () => {
         <div className={styles.error}>
           <Text
             text="📊 Нет данных"
-            size={TextSize.LARGE}
+            size={TextSize.LG}
             align={TextAlign.CENTER}
           />
         </div>
@@ -79,7 +83,7 @@ export const AdminDashboard = () => {
         <div className={styles.statsCard}>
           <Text
             text="👥 Пользователи"
-            size={TextSize.LARGE}
+            size={TextSize.LG}
             weight={TextWeight.MEDIUM}
             align={TextAlign.CENTER}
           />
@@ -109,7 +113,7 @@ export const AdminDashboard = () => {
         <div className={styles.statsCard}>
           <Text
             text="📚 Контент"
-            size={TextSize.LARGE}
+            size={TextSize.LG}
             weight={TextWeight.MEDIUM}
             align={TextAlign.CENTER}
           />
@@ -139,7 +143,7 @@ export const AdminDashboard = () => {
         <div className={styles.statsCard}>
           <Text
             text="📊 Прогресс"
-            size={TextSize.LARGE}
+            size={TextSize.LG}
             weight={TextWeight.MEDIUM}
             align={TextAlign.CENTER}
           />
@@ -162,7 +166,7 @@ export const AdminDashboard = () => {
 
       {/* Кнопки управления */}
       <div className={styles.actions}>
-        <button className={styles.actionButton} onClick={() => refetch()}>
+        <button className={styles.actionButton} onClick={() => void refetch()}>
           🔄 Обновить данные
         </button>
         <button className={styles.actionButton} onClick={handleDetailedStats}>

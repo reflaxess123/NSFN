@@ -1,6 +1,10 @@
 import { PageWrapper } from '@/shared/components/PageWrapper';
-import { Text, TextSize } from '@/shared/components/Text';
-import { TextAlign, TextWeight } from '@/shared/components/Text/ui/Text';
+import {
+  Text,
+  TextAlign,
+  TextSize,
+  TextWeight,
+} from '@/shared/components/Text';
 import styles from './Profile.module.scss';
 
 const Profile = () => {
@@ -9,7 +13,7 @@ const Profile = () => {
       <div className={styles.profile}>
         <Text
           text="Профиль"
-          size={TextSize.EXTRA_EXTRA_LARGE}
+          size={TextSize.XXL}
           weight={TextWeight.MEDIUM}
           align={TextAlign.CENTER}
         />

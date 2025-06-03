@@ -2,8 +2,12 @@ import { isAdmin } from '@/entities/User/model/types';
 import { Loading } from '@/shared/components/Loading';
 import { PageWrapper } from '@/shared/components/PageWrapper';
 import { RoleGuard } from '@/shared/components/RoleGuard';
-import { Text, TextSize } from '@/shared/components/Text';
-import { TextAlign, TextWeight } from '@/shared/components/Text/ui/Text';
+import {
+  Text,
+  TextAlign,
+  TextSize,
+  TextWeight,
+} from '@/shared/components/Text';
 import { useTheme } from '@/shared/context';
 import { useAuth } from '@/shared/hooks';
 import { AdminDashboard } from '@/widgets/AdminDashboard';
@@ -26,7 +30,7 @@ const Adminka = () => {
         {/* Заголовок страницы */}
         <Text
           text="Панель администратора"
-          size={TextSize.EXTRA_EXTRA_LARGE}
+          size={TextSize.XXL}
           weight={TextWeight.MEDIUM}
           align={TextAlign.CENTER}
         />
@@ -38,19 +42,19 @@ const Adminka = () => {
             <div className={styles.accessDenied}>
               <Text
                 text="🚫 Доступ запрещен"
-                size={TextSize.EXTRA_LARGE}
+                size={TextSize.XL}
                 weight={TextWeight.MEDIUM}
                 align={TextAlign.CENTER}
               />
               <Text
                 text="У вас нет прав для доступа к панели администратора"
-                size={TextSize.MEDIUM}
+                size={TextSize.MD}
                 align={TextAlign.CENTER}
               />
               {user && (
                 <Text
                   text={`Ваша роль: ${user.role}`}
-                  size={TextSize.SMALL}
+                  size={TextSize.SM}
                   align={TextAlign.CENTER}
                 />
               )}
@@ -70,34 +74,34 @@ const Adminka = () => {
                 <>
                   <Text
                     text={`Email: ${user.email}`}
-                    size={TextSize.SMALL}
+                    size={TextSize.SM}
                     align={TextAlign.CENTER}
                   />
                   <Text
                     text={`Role: ${user.role}`}
-                    size={TextSize.SMALL}
+                    size={TextSize.SM}
                     align={TextAlign.CENTER}
                   />
                   <Text
                     text={`Is Admin: ${isAdmin(user.role) ? 'Yes' : 'No'}`}
-                    size={TextSize.SMALL}
+                    size={TextSize.SM}
                     align={TextAlign.CENTER}
                   />
                 </>
               )}
               <Text
                 text={`Authenticated: ${isAuthenticated ? 'Yes' : 'No'}`}
-                size={TextSize.SMALL}
+                size={TextSize.SM}
                 align={TextAlign.CENTER}
               />
               <Text
                 text={`Initialized: ${isInitialized ? 'Yes' : 'No'}`}
-                size={TextSize.SMALL}
+                size={TextSize.SM}
                 align={TextAlign.CENTER}
               />
               <Text
                 text={`Theme: ${theme}`}
-                size={TextSize.SMALL}
+                size={TextSize.SM}
                 align={TextAlign.CENTER}
               />
               {error && <p className={styles.userInfoItem}>Error: {error}</p>}
