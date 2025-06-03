@@ -12,7 +12,6 @@ import {
   LogIn,
   LogOut,
   Map,
-  MessageSquare,
   Moon,
   Shield,
   Sun,
@@ -151,18 +150,6 @@ export const MobileMenu = ({
                 />
 
                 {/* Чат - только для авторизованных пользователей */}
-                {isAuthenticated && (
-                  <Link
-                    text="Чат"
-                    className={styles.link}
-                    icon={<MessageSquare size={64} />}
-                    to={AppRoutes.CHAT}
-                    onClick={handleLinkClick}
-                    isParentHovered={true}
-                    size="large"
-                    variant="sidebar"
-                  />
-                )}
               </div>
 
               <div className={styles.linksBottom}>

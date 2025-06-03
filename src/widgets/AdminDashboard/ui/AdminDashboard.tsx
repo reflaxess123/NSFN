@@ -135,28 +135,6 @@ export const AdminDashboard = () => {
           </div>
         </div>
 
-        {/* Статистика чатов */}
-        <div className={styles.statsCard}>
-          <Text
-            text="💬 Чаты"
-            size={TextSize.LARGE}
-            weight={TextWeight.MEDIUM}
-            align={TextAlign.CENTER}
-          />
-          <div className={styles.statsContent}>
-            <div className={styles.statItem}>
-              <span className={styles.statLabel}>Комнаты:</span>
-              <span className={styles.statValue}>{stats.chat.totalRooms}</span>
-            </div>
-            <div className={styles.statItem}>
-              <span className={styles.statLabel}>Сообщения:</span>
-              <span className={styles.statValue}>
-                {stats.chat.totalMessages}
-              </span>
-            </div>
-          </div>
-        </div>
-
         {/* Статистика прогресса */}
         <div className={styles.statsCard}>
           <Text

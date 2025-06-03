@@ -273,15 +273,6 @@ export const useDetailedStats = () => {
             progressCount: number;
           }>,
         },
-        chat: {
-          ...response.chat,
-          activeRoomsToday: 0,
-          avgMessagesPerRoom:
-            response.chat.totalRooms > 0
-              ? response.chat.totalMessages / response.chat.totalRooms
-              : 0,
-          mostActiveRoom: undefined,
-        },
         system: {
           uptime: 0,
           responseTime: 0,

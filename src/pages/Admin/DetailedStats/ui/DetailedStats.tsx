@@ -3,14 +3,7 @@ import { Button } from '@/shared/components/Button/ui/Button';
 import { PageWrapper } from '@/shared/components/PageWrapper';
 import { Text, TextSize } from '@/shared/components/Text';
 import { useDetailedStats } from '@/shared/hooks/useAdminAPI';
-import {
-  BarChart3,
-  FileText,
-  MessageCircle,
-  Target,
-  TrendingUp,
-  Users,
-} from 'lucide-react';
+import { BarChart3, FileText, Target, TrendingUp, Users } from 'lucide-react';
 import styles from './DetailedStats.module.scss';
 
 export const DetailedStats = () => {
@@ -236,39 +229,6 @@ export const DetailedStats = () => {
                 </div>
               </div>
             )}
-          </div>
-
-          {/* Чаты */}
-          <div className={styles.statsSection}>
-            <div className={styles.sectionHeader}>
-              <MessageCircle size={24} />
-              <Text text="💬 Чаты" size={TextSize.LARGE} />
-            </div>
-
-            <div className={styles.metricsGrid}>
-              <div className={styles.metricCard}>
-                <div className={styles.metricValue}>
-                  {stats.chat.totalMessages}
-                </div>
-                <div className={styles.metricLabel}>Всего сообщений</div>
-              </div>
-
-              <div className={styles.metricCard}>
-                <div className={styles.metricValue}>
-                  {stats.chat.activeRoomsToday}
-                </div>
-                <div className={styles.metricLabel}>
-                  Активных комнат сегодня
-                </div>
-              </div>
-
-              <div className={styles.metricCard}>
-                <div className={styles.metricValue}>
-                  {stats.chat.avgMessagesPerRoom.toFixed(1)}
-                </div>
-                <div className={styles.metricLabel}>Сообщений на комнату</div>
-              </div>
-            </div>
           </div>
 
           {/* Система */}

@@ -38,10 +38,6 @@ export interface AdminStats {
     totalBlocks: number;
     totalTheoryCards: number;
   };
-  chat: {
-    totalRooms: number;
-    totalMessages: number;
-  };
   progress: {
     totalContentProgress: number;
     totalTheoryProgress: number;

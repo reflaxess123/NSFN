@@ -12,7 +12,6 @@ import {
   LogIn,
   LogOut,
   Map,
-  MessageSquare,
   Moon,
   Shield,
   Sun,
@@ -112,16 +111,6 @@ export const Sidebar = ({ children }: { children: React.ReactNode }) => {
           />
 
           {/* Чат - только для авторизованных пользователей */}
-          {isAuthenticated && (
-            <Link
-              text="Чат"
-              className={styles.link}
-              icon={<MessageSquare size={24} />}
-              isParentHovered={isOpen}
-              to={AppRoutes.CHAT}
-              variant="sidebar"
-            />
-          )}
         </div>
 
         <div className={styles.linksBottom}>
