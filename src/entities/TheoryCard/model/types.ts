@@ -1,3 +1,16 @@
+// Интерфейс для прогресса изучения карточки
+export interface CardProgress {
+  solvedCount: number;
+  easeFactor: number;
+  interval: number;
+  dueDate: string | null;
+  reviewCount: number;
+  lapseCount: number;
+  cardState: string;
+  learningStep: number;
+  lastReviewDate: string | null;
+}
+
 // Основная сущность карточки
 export interface TheoryCard {
   id: string;
@@ -12,7 +25,7 @@ export interface TheoryCard {
   orderIndex: number;
   createdAt: string;
   updatedAt: string;
-  currentUserSolvedCount: number;
+  progress: CardProgress;
 }
 
 // Информация о пагинации

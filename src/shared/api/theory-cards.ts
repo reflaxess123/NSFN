@@ -7,7 +7,7 @@ import type {
 } from '@/entities/TheoryCard/model/types';
 import { apiInstance } from './base';
 
-// Тип для ответа сервера (с progressEntries)
+// Тип для ответа сервера (с progress объектом)
 interface ServerTheoryCard {
   id: string;
   ankiGuid: string;
@@ -21,10 +21,17 @@ interface ServerTheoryCard {
   orderIndex: number;
   createdAt: string;
   updatedAt: string;
-  progressEntries: Array<{
+  progress: {
     solvedCount: number;
-    // ... другие поля прогресса
-  }>;
+    easeFactor: number;
+    interval: number;
+    dueDate: string | null;
+    reviewCount: number;
+    lapseCount: number;
+    cardState: string;
+    learningStep: number;
+    lastReviewDate: string | null;
+  };
 }
 
 interface ServerTheoryCardsResponse {
@@ -51,12 +58,19 @@ export const theoryCardsApi = {
     // Преобразуем данные сервера в нужный формат
     const transformedData: TheoryCardsResponse = {
       cards: response.data.cards.map((card) => ({
-        ...card,
-        // Извлекаем solvedCount из первого элемента progressEntries или ставим 0
-        currentUserSolvedCount:
-          card.progressEntries && card.progressEntries.length > 0
-            ? card.progressEntries[0].solvedCount
-            : 0,
+        id: card.id,
+        ankiGuid: card.ankiGuid,
+        cardType: card.cardType,
+        deck: card.deck,
+        category: card.category,
+        subCategory: card.subCategory,
+        questionBlock: card.questionBlock,
+        answerBlock: card.answerBlock,
+        tags: card.tags,
+        orderIndex: card.orderIndex,
+        createdAt: card.createdAt,
+        updatedAt: card.updatedAt,
+        progress: card.progress,
       })),
       pagination: response.data.pagination,
     };

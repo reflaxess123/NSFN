@@ -107,7 +107,7 @@ export const TheoryCard = ({ card }: TheoryCardProps) => {
   };
 
   const progressInfo = !isGuest
-    ? getProgressLevel(card.currentUserSolvedCount)
+    ? getProgressLevel(card.progress?.solvedCount)
     : null;
 
   return (
@@ -147,7 +147,7 @@ export const TheoryCard = ({ card }: TheoryCardProps) => {
                   {progressInfo.emoji}
                 </span>
                 <span className={styles.progressCount}>
-                  {card.currentUserSolvedCount ?? 0}
+                  {card.progress?.solvedCount ?? 0}
                 </span>
                 <span
                   className={styles.progressLevel}
@@ -210,7 +210,7 @@ export const TheoryCard = ({ card }: TheoryCardProps) => {
                 >
                   ✅ Изучил
                 </button>
-                {(card.currentUserSolvedCount ?? 0) > 0 && (
+                {(card.progress?.solvedCount ?? 0) > 0 && (
                   <button
                     className={styles.progressButton}
                     onClick={(e) => {
