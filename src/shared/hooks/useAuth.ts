@@ -22,10 +22,26 @@ export const useProfile = () => {
         if (error instanceof Error && error.message.includes('401')) {
           return null;
         }
+
+        // Network/CORS ошибки в preview режиме - считаем как неавторизованного пользователя
+        if (
+          error instanceof Error &&
+          (error.message.includes('CORS') ||
+            error.message.includes('Network Error') ||
+            error.message.includes('ERR_FAILED') ||
+            error.message.includes('fetch'))
+        ) {
+          console.warn(
+            'API недоступен (preview режим?), пользователь считается неавторизованным'
+          );
+          return null;
+        }
+
         throw error;
       }
     },
     retry: false, // Не повторяем при ошибках
+    retryOnMount: false, // Не повторяем при монтировании
     refetchOnWindowFocus: false, // Не перезапрашиваем при фокусе окна
     refetchOnReconnect: false, // Не перезапрашиваем при переподключении
     staleTime: Infinity, // Данные никогда не устаревают автоматически

@@ -15,7 +15,34 @@ import type {
 const useTheoryCards = (params: TheoryCardsQueryParams) => {
   return useQuery({
     queryKey: ['theory-cards', params], // ключ для кеша
-    queryFn: () => theoryCardsApi.getTheoryCards(params), // функция запроса
+    queryFn: async () => {
+      try {
+        return await theoryCardsApi.getTheoryCards(params);
+      } catch (error) {
+        // Network/CORS ошибки в preview режиме - возвращаем пустые данные
+        if (
+          error instanceof Error &&
+          (error.message.includes('CORS') ||
+            error.message.includes('Network Error') ||
+            error.message.includes('ERR_FAILED') ||
+            error.message.includes('fetch'))
+        ) {
+          console.warn('Theory API недоступен (preview режим?)');
+          return {
+            cards: [],
+            pagination: {
+              page: 1,
+              limit: 10,
+              totalItems: 0,
+              totalPages: 0,
+            },
+          };
+        }
+        throw error;
+      }
+    },
+    retry: false,
+    retryOnMount: false,
   });
 };
 
@@ -25,13 +52,42 @@ const useInfiniteTheoryCards = (
 ) => {
   return useInfiniteQuery({
     queryKey: ['theory-cards-infinite', params],
-    queryFn: ({ pageParam = 1 }) =>
-      theoryCardsApi.getTheoryCards({ ...params, page: pageParam }),
+    queryFn: async ({ pageParam = 1 }) => {
+      try {
+        return await theoryCardsApi.getTheoryCards({
+          ...params,
+          page: pageParam,
+        });
+      } catch (error) {
+        // Network/CORS ошибки в preview режиме - возвращаем пустые данные
+        if (
+          error instanceof Error &&
+          (error.message.includes('CORS') ||
+            error.message.includes('Network Error') ||
+            error.message.includes('ERR_FAILED') ||
+            error.message.includes('fetch'))
+        ) {
+          console.warn('Theory API недоступен (preview режим?)');
+          return {
+            cards: [],
+            pagination: {
+              page: pageParam,
+              limit: 10,
+              totalItems: 0,
+              totalPages: 0,
+            },
+          };
+        }
+        throw error;
+      }
+    },
     getNextPageParam: (lastPage) => {
       const { page, totalPages } = lastPage.pagination;
       return page < totalPages ? page + 1 : undefined;
     },
     initialPageParam: 1,
+    retry: false,
+    retryOnMount: false,
   });
 };
 
@@ -39,8 +95,27 @@ const useInfiniteTheoryCards = (
 const useCategories = () => {
   return useQuery({
     queryKey: ['theory-categories'],
-    queryFn: () => theoryCardsApi.getCategories(),
+    queryFn: async () => {
+      try {
+        return await theoryCardsApi.getCategories();
+      } catch (error) {
+        // Network/CORS ошибки в preview режиме - возвращаем пустые категории
+        if (
+          error instanceof Error &&
+          (error.message.includes('CORS') ||
+            error.message.includes('Network Error') ||
+            error.message.includes('ERR_FAILED') ||
+            error.message.includes('fetch'))
+        ) {
+          console.warn('Categories API недоступен (preview режим?)');
+          return [];
+        }
+        throw error;
+      }
+    },
     staleTime: 5 * 60 * 1000, // 5 минут
+    retry: false,
+    retryOnMount: false,
   });
 };
 

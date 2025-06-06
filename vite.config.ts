@@ -18,62 +18,14 @@ export default defineConfig({
   build: {
     rollupOptions: {
       output: {
-        manualChunks(id) {
-          // React и связанные библиотеки
-          if (
-            id.includes('react') ||
-            id.includes('react-dom') ||
-            id.includes('react-router')
-          ) {
-            return 'react';
-          }
-
-          // UI библиотеки
-          if (
-            id.includes('lucide-react') ||
-            id.includes('clsx') ||
-            id.includes('framer-motion')
-          ) {
-            return 'ui';
-          }
-
-          // TanStack Query и Redux
-          if (
-            id.includes('@tanstack/react-query') ||
-            id.includes('@reduxjs/toolkit') ||
-            id.includes('redux')
-          ) {
-            return 'state';
-          }
-
-          // Админские страницы
-          if (id.includes('pages/Admin') || id.includes('pages/Adminka')) {
-            return 'admin';
-          }
-
-          // Основные страницы
-          if (
-            id.includes('pages/Profile') ||
-            id.includes('pages/Tasks') ||
-            id.includes('pages/Theory')
-          ) {
-            return 'pages';
-          }
-
-          // Shared компоненты и хуки
-          if (id.includes('shared/components') || id.includes('shared/hooks')) {
-            return 'shared';
-          }
-
-          // Крупные библиотеки
-          if (id.includes('node_modules')) {
-            return 'vendor';
-          }
+        manualChunks: {
+          // Только большие библиотеки выносим отдельно
+          vendor: ['axios', 'date-fns', 'konva', 'socket.io-client'],
         },
       },
     },
     // Увеличиваем лимит предупреждения о размере чанков
-    chunkSizeWarningLimit: 800,
+    chunkSizeWarningLimit: 1500,
     // Включаем минификацию
     minify: 'terser',
     terserOptions: {

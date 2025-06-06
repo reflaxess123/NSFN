@@ -7,6 +7,11 @@
     "node": ">=20.0.0",
     "npm": ">=10.0.0"
   },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not dead"
+  ],
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
