@@ -1,22 +1,12 @@
-import { checkProfile, selectIsInitialized, selectIsLoading } from '@/entities/User';
 import { Loading } from '@/shared/components/Loading';
-import { useAppDispatch, useAppSelector } from '@/shared/hooks';
-import { useEffect } from 'react';
+import { useAuth } from '@/shared/hooks';
 
 interface AuthProviderProps {
   children: React.ReactNode;
 }
 
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
-  const dispatch = useAppDispatch();
-  const isInitialized = useAppSelector(selectIsInitialized);
-  const isLoading = useAppSelector(selectIsLoading);
-
-  useEffect(() => {
-    if (!isInitialized) {
-      dispatch(checkProfile());
-    }
-  }, [dispatch, isInitialized]);
+  const { isInitialized, isLoading } = useAuth();
 
   if (!isInitialized || isLoading) {
     return <Loading />;

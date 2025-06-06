@@ -1,9 +1,9 @@
 import { AppRoutes } from '@/app/providers/router';
-import { logoutUser } from '@/entities/User';
 import { isAdmin } from '@/entities/User/model/types';
 import { Link } from '@/shared/components/Link';
 import { useTheme } from '@/shared/context/ThemeContext';
-import { useAppDispatch, useAuth } from '@/shared/hooks';
+import { useAuth } from '@/shared/hooks';
+import { useLogout } from '@/shared/hooks/useAuth';
 import { AnimatePresence, motion } from 'framer-motion';
 import {
   Bird,
@@ -11,7 +11,6 @@ import {
   Home,
   LogIn,
   LogOut,
-  Map,
   Moon,
   Shield,
   Sun,
@@ -30,7 +29,7 @@ export const MobileMenu = ({
   onClose,
   onOpenLogin,
 }: MobileMenuProps) => {
-  const dispatch = useAppDispatch();
+  const logoutMutation = useLogout();
   const { isAuthenticated, user } = useAuth();
   const { theme, setTheme } = useTheme();
 
@@ -42,7 +41,7 @@ export const MobileMenu = ({
   };
 
   const handleLogout = () => {
-    dispatch(logoutUser());
+    logoutMutation.mutate();
     onClose();
   };
 
@@ -131,18 +130,6 @@ export const MobileMenu = ({
                   className={styles.link}
                   icon={<Bird size={64} />}
                   to={AppRoutes.TASKS}
-                  onClick={handleLinkClick}
-                  isParentHovered={true}
-                  size="large"
-                  variant="sidebar"
-                />
-
-                {/* Роадмап - доступен всем */}
-                <Link
-                  text="Роадмап"
-                  className={styles.link}
-                  icon={<Map size={64} />}
-                  to={AppRoutes.ROADMAP}
                   onClick={handleLinkClick}
                   isParentHovered={true}
                   size="large"

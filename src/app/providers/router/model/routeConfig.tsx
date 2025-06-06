@@ -14,9 +14,6 @@ const Tasks = lazy(() =>
 const Theory = lazy(() =>
   import('@/pages/Theory').then((module) => ({ default: module.Theory }))
 );
-const RoadMap = lazy(() =>
-  import('@/pages/RoadMap').then((module) => ({ default: module.RoadMap }))
-);
 const UserManagement = lazy(() =>
   import('@/pages/Admin/UserManagement').then((module) => ({
     default: module.UserManagement,
@@ -34,7 +31,6 @@ export enum AppRoutes {
   THEORY = '/theory',
   PROFILE = '/profile',
   ADMIN_PANEL = '/admin-panel',
-  ROADMAP = '/roadmap',
   ADMIN_USERS = '/admin/users',
   ADMIN_STATS = '/admin/stats',
 }
@@ -45,7 +41,6 @@ export const routeConfig: AppRoute[] = [
   { path: AppRoutes.THEORY, element: <Theory /> },
   { path: AppRoutes.PROFILE, element: <Profile /> },
   { path: AppRoutes.ADMIN_PANEL, element: <Adminka /> },
-  { path: AppRoutes.ROADMAP, element: <RoadMap /> },
   { path: AppRoutes.ADMIN_USERS, element: <UserManagement /> },
   { path: AppRoutes.ADMIN_STATS, element: <DetailedStats /> },
 ];

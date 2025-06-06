@@ -1,9 +1,9 @@
-import { registerUser } from '@/entities/User';
 import { LoginForm } from '@/features/LoginForm';
 import { ButtonVariant } from '@/shared/components/Button/model/types';
 import { Button } from '@/shared/components/Button/ui/Button';
 import { Input } from '@/shared/components/Input';
-import { useAppDispatch, useModal } from '@/shared/hooks';
+import { useModal } from '@/shared/hooks';
+import { useRegister } from '@/shared/hooks/useAuth';
 import { useRegisterForm } from '../model/hooks';
 import type { RegisterFormSchema } from '../model/schema';
 import styles from './RegisterForm.module.scss';
@@ -12,7 +12,7 @@ export const RegisterForm = () => {
   const { register, handleSubmit, formState, getFieldError } =
     useRegisterForm();
 
-  const dispatch = useAppDispatch();
+  const registerMutation = useRegister();
 
   const loginModal = useModal('login-modal');
   const registerModal = useModal('register-modal');
@@ -23,13 +23,18 @@ export const RegisterForm = () => {
   };
 
   const onSubmit = (data: RegisterFormSchema) => {
-    dispatch(registerUser({ email: data.username, password: data.password }));
+    registerMutation.mutate({ email: data.username, password: data.password });
   };
 
   return (
     <>
       <div className={styles.registerForm}>
         <p className={styles.title}>Register form</p>
+
+        {registerMutation.error && (
+          <p className={styles.error}>{registerMutation.error.message}</p>
+        )}
+
         {formState.errors.username && (
           <p className={styles.error}>{getFieldError('username')}</p>
         )}
@@ -54,7 +59,7 @@ export const RegisterForm = () => {
           <Button
             type="button"
             variant={ButtonVariant.GHOST}
-            disabled={formState.isSubmitting}
+            disabled={registerMutation.isPending || formState.isSubmitting}
             onClick={handleOpenLogin}
           >
             Login
@@ -62,9 +67,9 @@ export const RegisterForm = () => {
           <Button
             type="button"
             onClick={handleSubmit(onSubmit)}
-            disabled={formState.isSubmitting}
+            disabled={registerMutation.isPending || formState.isSubmitting}
           >
-            {formState.isSubmitting ? 'Loading...' : 'Register'}
+            {registerMutation.isPending ? 'Loading...' : 'Register'}
           </Button>
         </div>
       </div>

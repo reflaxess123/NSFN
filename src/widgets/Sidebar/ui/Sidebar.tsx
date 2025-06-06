@@ -1,17 +1,16 @@
 import type { RootState } from '@/app/providers/redux/model/store';
 import { AppRoutes } from '@/app/providers/router';
-import { logoutUser } from '@/entities/User';
 import { isAdmin } from '@/entities/User/model/types';
 import { LoginForm } from '@/features/LoginForm';
 import { Link } from '@/shared/components/Link';
 import { useTheme } from '@/shared/context/ThemeContext';
 import { useAppDispatch, useAuth, useModal } from '@/shared/hooks';
+import { useLogout } from '@/shared/hooks/useAuth';
 import {
   Bird,
   Brain,
   LogIn,
   LogOut,
-  Map,
   Moon,
   Shield,
   Sun,
@@ -24,6 +23,7 @@ import styles from './Sidebar.module.scss';
 
 export const Sidebar = ({ children }: { children: React.ReactNode }) => {
   const dispatch = useAppDispatch();
+  const logoutMutation = useLogout();
   const isOpen = useSelector((state: RootState) => state.sidebar.isOpen);
   const { isAuthenticated, user } = useAuth();
   const { theme, setTheme } = useTheme();
@@ -34,7 +34,7 @@ export const Sidebar = ({ children }: { children: React.ReactNode }) => {
   };
 
   const handleLogout = () => {
-    dispatch(logoutUser());
+    logoutMutation.mutate();
     dispatch(toggleSidebar());
   };
 
@@ -97,16 +97,6 @@ export const Sidebar = ({ children }: { children: React.ReactNode }) => {
             icon={<Bird size={24} />}
             isParentHovered={isOpen}
             to={AppRoutes.TASKS}
-            variant="sidebar"
-          />
-
-          {/* Роадмап - доступен всем */}
-          <Link
-            text="Роадмап"
-            className={styles.link}
-            icon={<Map size={24} />}
-            isParentHovered={isOpen}
-            to={AppRoutes.ROADMAP}
             variant="sidebar"
           />
 

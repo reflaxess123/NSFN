@@ -1,4 +1,3 @@
-import { selectUser } from '@/entities/User';
 import { ContentFilters } from '@/features/ContentFilters';
 import { PageWrapper } from '@/shared/components/PageWrapper';
 import {
@@ -7,8 +6,7 @@ import {
   TextSize,
   TextWeight,
 } from '@/shared/components/Text';
-import { useRole } from '@/shared/hooks';
-import { useAppSelector } from '@/shared/hooks/redux';
+import { useAuth, useRole } from '@/shared/hooks';
 import { useContentCategories } from '@/shared/hooks/useContentBlocks';
 import { ContentBlocksList } from '@/widgets/ContentBlocksList';
 import { LogIn } from 'lucide-react';
@@ -16,7 +14,7 @@ import { useEffect } from 'react';
 import styles from './Tasks.module.scss';
 
 const Tasks = () => {
-  const user = useAppSelector(selectUser);
+  const { user } = useAuth();
   const { isGuest } = useRole();
 
   // Загружаем категории при монтировании

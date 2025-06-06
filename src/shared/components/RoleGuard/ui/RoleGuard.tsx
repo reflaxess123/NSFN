@@ -1,6 +1,5 @@
-import { selectUser } from '@/entities/User';
 import { hasRole, type UserRole } from '@/entities/User/model/types';
-import { useAppSelector } from '@/shared/hooks/redux';
+import { useAuth } from '@/shared/hooks';
 import type { ReactNode } from 'react';
 
 interface RoleGuardProps {
@@ -14,7 +13,7 @@ export const RoleGuard = ({
   requiredRole,
   fallback = <div>У вас нет доступа к этой функции</div>,
 }: RoleGuardProps) => {
-  const user = useAppSelector(selectUser);
+  const { user } = useAuth();
 
   // Если пользователь не авторизован, считаем его гостем
   const userRole: UserRole = user?.role || 'GUEST';

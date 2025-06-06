@@ -37,8 +37,7 @@ src/
 ├── entities/User/ # Сущность пользователя
 │ ├── model/
 │ │ ├── slice.ts # userSlice с состоянием
-│ │ ├── selectors.ts # selectUser, selectIsAuthenticated и др.
-│ │ └── thunks.ts # checkProfile, loginUser, logoutUser
+│ │ └── types.ts # User, UserRole, hasRole и др.
 │ └── index.ts # публичный API сущности
 ├── widgets/ # Композитные блоки UI
 ├── features/ # Пользовательские сценарии (пока пусто)

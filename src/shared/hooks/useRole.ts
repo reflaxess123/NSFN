@@ -1,18 +1,19 @@
 import {
+  isAdmin as checkIsAdmin,
+  isGuest as checkIsGuest,
+  isUser as checkIsUser,
   hasRole,
-  selectIsAdmin,
-  selectIsGuest,
-  selectIsUser,
-  selectUserRole,
   type UserRole,
 } from '@/entities/User';
-import { useAppSelector } from './redux';
+import { useAuth } from './useAuth';
 
 export const useRole = () => {
-  const userRole = useAppSelector(selectUserRole);
-  const isAdmin = useAppSelector(selectIsAdmin);
-  const isUser = useAppSelector(selectIsUser);
-  const isGuest = useAppSelector(selectIsGuest);
+  const { user } = useAuth();
+  const userRole: UserRole = user?.role || 'GUEST';
+
+  const isAdmin = checkIsAdmin(userRole);
+  const isUser = checkIsUser(userRole);
+  const isGuest = checkIsGuest(userRole);
 
   const checkRole = (requiredRole: UserRole): boolean => {
     return hasRole(userRole, requiredRole);

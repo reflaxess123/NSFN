@@ -7,7 +7,6 @@ import type {
   UpdateUserRequest,
   User,
 } from '@/entities/User/model/types';
-import type { AxiosResponse } from 'axios';
 import { apiInstance } from './base';
 
 export const authApi = {
@@ -34,52 +33,63 @@ export const authApi = {
   },
 
   admin: {
-    getStats: (): Promise<AdminStats> =>
-      apiInstance
-        .get('/api/admin/stats')
-        .then((response: AxiosResponse<AdminStats>) => response.data),
+    async getStats(): Promise<AdminStats> {
+      const response = await apiInstance.get<AdminStats>('/api/admin/stats');
+      return response.data;
+    },
 
-    getUsers: (params?: {
+    async getUsers(params?: {
       page?: number;
       limit?: number;
       role?: string;
       search?: string;
-    }): Promise<{ users: AdminUser[]; total: number; pages: number }> =>
-      apiInstance.get('/api/admin/users', { params }).then(
-        (
-          response: AxiosResponse<{
-            users: AdminUser[];
-            total: number;
-            pages: number;
-          }>
-        ) => response.data
-      ),
+    }): Promise<{ users: AdminUser[]; total: number; pages: number }> {
+      const response = await apiInstance.get<{
+        users: AdminUser[];
+        total: number;
+        pages: number;
+      }>('/api/admin/users', { params });
+      return response.data;
+    },
 
-    createUser: (data: CreateUserRequest): Promise<AdminUser> =>
-      apiInstance
-        .post('/api/admin/users', data)
-        .then((response: AxiosResponse<AdminUser>) => response.data),
+    async createUser(data: CreateUserRequest): Promise<AdminUser> {
+      const response = await apiInstance.post<AdminUser>(
+        '/api/admin/users',
+        data
+      );
+      return response.data;
+    },
 
-    updateUser: (userId: number, data: UpdateUserRequest): Promise<AdminUser> =>
-      apiInstance
-        .put(`/api/admin/users/${userId}`, data)
-        .then((response: AxiosResponse<AdminUser>) => response.data),
+    async updateUser(
+      userId: number,
+      data: UpdateUserRequest
+    ): Promise<AdminUser> {
+      const response = await apiInstance.put<AdminUser>(
+        `/api/admin/users/${userId}`,
+        data
+      );
+      return response.data;
+    },
 
-    deleteUser: (userId: number): Promise<void> =>
-      apiInstance
-        .delete(`/api/admin/users/${userId}`)
-        .then((response: AxiosResponse<void>) => response.data),
+    async deleteUser(userId: number): Promise<void> {
+      const response = await apiInstance.delete<void>(
+        `/api/admin/users/${userId}`
+      );
+      return response.data;
+    },
 
-    getContentStats: (): Promise<Record<string, unknown>> =>
-      apiInstance
-        .get('/api/admin/content/stats')
-        .then(
-          (response: AxiosResponse<Record<string, unknown>>) => response.data
-        ),
+    async getContentStats(): Promise<Record<string, unknown>> {
+      const response = await apiInstance.get<Record<string, unknown>>(
+        '/api/admin/content/stats'
+      );
+      return response.data;
+    },
 
-    deleteContentFile: (fileId: string): Promise<void> =>
-      apiInstance
-        .delete(`/api/admin/content/files/${fileId}`)
-        .then((response: AxiosResponse<void>) => response.data),
+    async deleteContentFile(fileId: string): Promise<void> {
+      const response = await apiInstance.delete<void>(
+        `/api/admin/content/files/${fileId}`
+      );
+      return response.data;
+    },
   },
 };
