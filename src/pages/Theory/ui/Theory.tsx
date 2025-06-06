@@ -5,7 +5,7 @@ import {
   TheoryFiltersComponent,
   type TheoryFilters,
 } from '@/entities/TheoryCard';
-import { PageWrapper } from '@/shared/components/PageWrapper';
+import { PageWrapper } from '@/shared/components/PageWrapper/ui/PageWrapper';
 import { useAppDispatch, useAppSelector, useRole } from '@/shared/hooks';
 import { LogIn } from 'lucide-react';
 import { useCallback } from 'react';

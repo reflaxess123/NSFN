@@ -1,4 +1,4 @@
-import { PageWrapper } from '@/shared/components/PageWrapper';
+import { PageWrapper } from '@/shared/components/PageWrapper/ui/PageWrapper';
 import {
   Text,
   TextAlign,

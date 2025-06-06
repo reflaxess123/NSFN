@@ -1,6 +1,6 @@
 import { isAdmin } from '@/entities/User/model/types';
 import { Loading } from '@/shared/components/Loading';
-import { PageWrapper } from '@/shared/components/PageWrapper';
+import { PageWrapper } from '@/shared/components/PageWrapper/ui/PageWrapper';
 import { RoleGuard } from '@/shared/components/RoleGuard';
 import {
   Text,

@@ -1,6 +1,6 @@
 import { ButtonVariant } from '@/shared/components/Button/model/types';
 import { Button } from '@/shared/components/Button/ui/Button';
-import { PageWrapper } from '@/shared/components/PageWrapper';
+import { PageWrapper } from '@/shared/components/PageWrapper/ui/PageWrapper';
 import { Text, TextSize } from '@/shared/components/Text';
 import {
   useChangeUserRole,
@@ -88,7 +88,7 @@ export const UserManagement = () => {
       <PageWrapper>
         <div className={styles.userManagement}>
           <div className={styles.loading}>
-            <Text text="⏳ Загрузка пользователей..." size={TextSize.LARGE} />
+            <Text text="⏳ Загрузка пользователей..." size={TextSize.LG} />
           </div>
         </div>
       </PageWrapper>
@@ -100,14 +100,14 @@ export const UserManagement = () => {
       <PageWrapper>
         <div className={styles.userManagement}>
           <div className={styles.error}>
-            <Text text="❌ Ошибка загрузки" size={TextSize.LARGE} />
+            <Text text="❌ Ошибка загрузки" size={TextSize.LG} />
             <Text
               text={
                 error instanceof Error
                   ? error.message
                   : 'Не удалось загрузить список пользователей'
               }
-              size={TextSize.MEDIUM}
+              size={TextSize.MD}
             />
             <Button onClick={() => refetch()} variant={ButtonVariant.PRIMARY}>
               Попробовать снова
@@ -122,10 +122,10 @@ export const UserManagement = () => {
     <PageWrapper>
       <div className={styles.userManagement}>
         <div className={styles.header}>
-          <Text text="👥 Управление пользователями" size={TextSize.LARGE} />
+          <Text text="👥 Управление пользователями" size={TextSize.LG} />
           <Text
             text={`Всего пользователей: ${users.length}`}
-            size={TextSize.MEDIUM}
+            size={TextSize.MD}
             className={styles.subtitle}
           />
         </div>
@@ -143,7 +143,7 @@ export const UserManagement = () => {
         <div className={styles.usersList}>
           {users.length === 0 ? (
             <div className={styles.empty}>
-              <Text text="Пользователи не найдены" size={TextSize.LARGE} />
+              <Text text="Пользователи не найдены" size={TextSize.LG} />
             </div>
           ) : (
             <div className={styles.usersGrid}>
@@ -161,7 +161,7 @@ export const UserManagement = () => {
                     </div>
 
                     <div className={styles.userEmail}>
-                      <Text text={user.email} size={TextSize.MEDIUM} />
+                      <Text text={user.email} size={TextSize.MD} />
                     </div>
 
                     <div className={styles.userDates}>

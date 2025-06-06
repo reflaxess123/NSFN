@@ -1,6 +1,6 @@
 import { ButtonVariant } from '@/shared/components/Button/model/types';
 import { Button } from '@/shared/components/Button/ui/Button';
-import { PageWrapper } from '@/shared/components/PageWrapper';
+import { PageWrapper } from '@/shared/components/PageWrapper/ui/PageWrapper';
 import { Text, TextSize } from '@/shared/components/Text';
 import { useDetailedStats } from '@/shared/hooks/useAdminAPI';
 import { BarChart3, FileText, Target, TrendingUp, Users } from 'lucide-react';
@@ -40,7 +40,7 @@ export const DetailedStats = () => {
             <BarChart3 size={48} className={styles.loadingIcon} />
             <Text
               text="📊 Загрузка детальной статистики..."
-              size={TextSize.LARGE}
+              size={TextSize.LG}
             />
           </div>
         </div>
@@ -53,10 +53,10 @@ export const DetailedStats = () => {
       <PageWrapper>
         <div className={styles.detailedStats}>
           <div className={styles.error}>
-            <Text text="❌ Ошибка загрузки" size={TextSize.LARGE} />
+            <Text text="❌ Ошибка загрузки" size={TextSize.LG} />
             <Text
               text={error instanceof Error ? error.message : 'Нет данных'}
-              size={TextSize.MEDIUM}
+              size={TextSize.MD}
             />
             <Button onClick={() => refetch()} variant={ButtonVariant.PRIMARY}>
               Попробовать снова
@@ -74,10 +74,10 @@ export const DetailedStats = () => {
           <div className={styles.titleSection}>
             <BarChart3 size={32} className={styles.titleIcon} />
             <div>
-              <Text text="📊 Детальная статистика" size={TextSize.LARGE} />
+              <Text text="📊 Детальная статистика" size={TextSize.LG} />
               <Text
                 text="Расширенные метрики и аналитика системы"
-                size={TextSize.MEDIUM}
+                size={TextSize.MD}
                 className={styles.subtitle}
               />
             </div>
@@ -105,7 +105,7 @@ export const DetailedStats = () => {
           <div className={styles.statsSection}>
             <div className={styles.sectionHeader}>
               <Users size={24} />
-              <Text text="👥 Пользователи" size={TextSize.LARGE} />
+              <Text text="👥 Пользователи" size={TextSize.LG} />
             </div>
 
             <div className={styles.metricsGrid}>
@@ -141,7 +141,7 @@ export const DetailedStats = () => {
           <div className={styles.statsSection}>
             <div className={styles.sectionHeader}>
               <FileText size={24} />
-              <Text text="📚 Контент" size={TextSize.LARGE} />
+              <Text text="📚 Контент" size={TextSize.LG} />
             </div>
 
             <div className={styles.metricsGrid}>
@@ -179,7 +179,7 @@ export const DetailedStats = () => {
           <div className={styles.statsSection}>
             <div className={styles.sectionHeader}>
               <Target size={24} />
-              <Text text="📈 Прогресс" size={TextSize.LARGE} />
+              <Text text="📈 Прогресс" size={TextSize.LG} />
             </div>
 
             <div className={styles.metricsGrid}>
@@ -212,7 +212,7 @@ export const DetailedStats = () => {
               <div className={styles.topList}>
                 <Text
                   text="🏆 Самые активные пользователи"
-                  size={TextSize.MEDIUM}
+                  size={TextSize.MD}
                 />
                 <div className={styles.topItems}>
                   {stats.progress.mostActiveUsers
@@ -235,7 +235,7 @@ export const DetailedStats = () => {
           <div className={styles.statsSection}>
             <div className={styles.sectionHeader}>
               <TrendingUp size={24} />
-              <Text text="⚙️ Система" size={TextSize.LARGE} />
+              <Text text="⚙️ Система" size={TextSize.LG} />
             </div>
 
             <div className={styles.metricsGrid}>
@@ -274,7 +274,7 @@ export const DetailedStats = () => {
             <div className={styles.statsSection}>
               <div className={styles.sectionHeader}>
                 <Target size={24} />
-                <Text text="📂 Популярные категории" size={TextSize.LARGE} />
+                <Text text="📂 Популярные категории" size={TextSize.LG} />
               </div>
 
               <div className={styles.topList}>
